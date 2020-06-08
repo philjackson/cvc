@@ -1,16 +1,26 @@
 (ns app.core
   (:require [reagent.dom :as dom]
-            [app.model.state :as state]
             [app.router :as router]
+            [app.view.index :as index]
+            [app.model.state :as state]
             [app.firebase.auth :as auth]))
 
 (defn current-page []
-  (let [view @state/view
-        user @state/user
+  (let [user @state/user
         cvs @state/cvs]
-    (if (or (empty? user) (not cvs))
-      [:div "Loading user and data."]
-      view)))
+    (cond
+      (not user)
+      [index/loader "Loading user..."]
+
+      (not cvs)
+      [index/loader "Loading your CVs..."]
+
+      ;; we have all of our data, load the view, giving it a (css)
+      ;; class name and passing in any parameters for convenience
+      :else
+      (let [{:keys [name parameters]} (:data @state/match)]
+        [:div {:class name}
+         [@state/view parameters]]))))
 
 (defn ^:dev/after-load render []
   (dom/render

@@ -1,5 +1,6 @@
 (ns app.view.semantic
   (:require [reagent.core :as r :refer [atom create-class as-element]]
+            [reagent.dom :as dom]
             ["semantic-ui-react" :as semanticUIReact]
             ["react-textarea-autosize" :as TextAreaResize]
             goog.object))
@@ -160,7 +161,7 @@
 
       :component-will-update
       (fn [this [_ atom]]
-        (let [area (r/dom-node this)]
+        (let [area (dom/dom-node this)]
           (when-not (= @atom (.-value area))
             (set! (.-value area) @atom))))})))
 
