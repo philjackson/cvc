@@ -21,8 +21,7 @@
                     :valid-firebase-user (s/keys :req-un [::uid ::display-name ::email])
                     :no-firebase-user    #(= % {})))
 
-(s/def ::state (s/keys :req-un [::config ::cv-data ::route-match]
-                       :opt-un [::user]))
+(s/def ::state (s/keys :req-un [::user ::config ::cv-data ::route-match]))
 
 ;; cursors for the most commonly accessed parts
 (def config (r/cursor all-seeing-state [:config]))

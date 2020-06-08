@@ -37,4 +37,20 @@
         []
         {:uid "hello"}
         {:uid "hello" :email "some@email.com"}
+        [1 2 3])))
+
+  (testing "::state/state"
+    (testing "valid values"
+      (are [value] (s/valid? ::state/state value)
+        {:config {} :cv-data {} :route-match {} :user {}}))
+
+    (testing "invalid values"
+      (are [value] (not (s/valid? ::state/state value))
+        nil
+        {}
+        []
+        1
+        {:one 1}
+        :one
+        {:user {:uid "hi" :email "an@email.com" :display-name "Phil Jackson"}}
         [1 2 3]))))
