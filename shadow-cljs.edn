@@ -10,6 +10,11 @@
           :num-tests 10
           :outstrument true
           :report-output :repl}}}
+  :test {:target :browser-test
+         :test-dir "resources/public/js/test"
+         :ns-regexp "-test$"
+         :devtools  {:http-port 8021
+                     :http-root "resources/public/js/test"}}
   :prod {:asset-path "/js"
          :modules {:main {:init-fn app.core/main}}
          :devtools {:preloads [hashp.core]}
@@ -29,4 +34,4 @@
  :dev-http {3000 "public"}
  :nrepl {:port 3333
          :init-ns user}
- :source-paths ["src" "test"]}
+ :source-paths ["src"]}

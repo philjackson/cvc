@@ -29,8 +29,8 @@
 (def match  (r/cursor all-seeing-state [:route-match]))
 (def view   (r/cursor all-seeing-state [:route-match :data :view]))
 
-(when debug?
-  (s/explain ::cv-data @cvs)
-  (s/explain ::config @config)
-  (s/explain ::user @user)
-  (s/explain ::route-match @match))
+#_(when debug?
+    (s/explain ::cv-data @cvs)
+    (s/explain ::config @config)
+    (s/explain ::user @user)
+    (s/explain ::route-match @match))

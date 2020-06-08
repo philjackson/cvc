@@ -1,4 +1,4 @@
-(ns app.model.state-test
+(ns test.model.state-test
   (:require [app.model.state :as state]
             [cljs.spec.alpha :as s]
             [cljs.test :include-macros true :refer [deftest is run-tests testing are]]))
@@ -32,5 +32,3 @@
       {:uid "hello"}
       {:uid "hello" :email "some@email.com"}
       [1 2 3])))
-
-(run-tests)
