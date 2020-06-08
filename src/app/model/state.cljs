@@ -8,7 +8,8 @@
                                  :route-match nil
                                  :config {}}))
 
-(s/def ::cv-data (s/keys))
+(s/def ::id string?)
+(s/def ::cv-data (s/keys :req-op [::id]))
 (s/def ::config (s/keys))
 (s/def ::route-match (s/nilable (s/keys)))
 
@@ -16,9 +17,8 @@
 (s/def ::display-name string?)
 (s/def ::email string?)
 
-;; user being optional as it's how we can tell if the user has been
-;; initialised
-(s/def ::user (s/nilable (s/keys :req-un [::uid ::display-name ::email])))
+(s/def ::user (s/or :valid-user (s/keys :req-un [::uid ::display-name ::email])
+                    :no-user #(= % {})))
 (s/def ::state (s/keys :req-un [::config ::cv-data ::route-match]
                        :opt-un [::user]))
 
