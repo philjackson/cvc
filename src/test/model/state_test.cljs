@@ -23,6 +23,7 @@
   (testing "::state/route-match"
     (testing "valid values"
       (are [value] (s/valid? ::state/route-match value)
+        @state/match
         nil
         {}))
 
@@ -34,6 +35,7 @@
   (testing "::state/user"
     (testing "valid values"
       (are [value] (s/valid? ::state/user value)
+        @state/user
         nil
         {}
         {:uid "hi"
@@ -53,7 +55,6 @@
   (testing "::state/state"
     (testing "valid values"
       (are [value] (s/valid? ::state/state value)
-        ;; the initial state when the app starts
         @state/all-seeing-state
         {:config {} :cv-data {} :route-match {} :user {}}))
 
