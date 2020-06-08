@@ -4,8 +4,8 @@
             [ghostwheel.core :as g :refer [>defn => | ?]]
             [app.debug :refer [debug?]]))
 
-(def all-seeing-state (atom {:cv-data {}
-                             :config {}}))
+(defonce all-seeing-state (atom {:cv-data {}
+                                 :config {}}))
 
 (s/def ::cv-data (s/keys))
 (s/def ::config (s/keys))
