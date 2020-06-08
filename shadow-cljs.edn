@@ -29,4 +29,4 @@
  :dev-http {3000 "public"}
  :nrepl {:port 3333
          :init-ns user}
- :source-paths ["src"]}
+ :source-paths ["src" "test"]}
