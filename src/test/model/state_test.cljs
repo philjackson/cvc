@@ -20,6 +20,17 @@
         []
         [1 2 3])))
 
+  (testing "::state/route-match"
+    (testing "valid values"
+      (are [value] (s/valid? ::state/route-match value)
+        nil
+        {}))
+
+    (testing "invalid values"
+      (are [value] (not (s/valid? ::state/route-match value))
+        1
+        [])))
+
   (testing "::state/user"
     (testing "valid values"
       (are [value] (s/valid? ::state/user value)
@@ -42,6 +53,8 @@
   (testing "::state/state"
     (testing "valid values"
       (are [value] (s/valid? ::state/state value)
+        ;; the initial state when the app starts
+        @state/all-seeing-state
         {:config {} :cv-data {} :route-match {} :user {}}))
 
     (testing "invalid values"

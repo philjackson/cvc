@@ -6,6 +6,7 @@
 
 (defonce all-seeing-state (atom {:cv-data {}
                                  :route-match nil
+                                 :user nil
                                  :config {}}))
 
 (s/def ::id string?)
