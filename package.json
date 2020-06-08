@@ -1,0 +1,24 @@
+{
+  "name": "cvc",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "shadow-cljs watch dev",
+    "build": "npm run clean && shadow-cljs release prod",
+    "less": "less-watch-compiler src/less/ public/css/ main.less",
+    "clean": "rm -rf public/js"
+  },
+  "dependencies": {
+    "create-react-class": "^15.6.3",
+    "firebase": "^7.15.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "semantic-ui-react": "^0.88.2"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.9.10",
+    "less": "^3.11.3",
+    "less-plugin-clean-css": "^1.5.1",
+    "marked": "^1.1.0"
+  }
+}
