@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "shadow-cljs watch dev",
-    "test": "shadow-cljs watch test",
+    "test":  "shadow-cljs watch test",
     "build": "npm run clean && shadow-cljs release prod",
-    "less": "less-watch-compiler src/less/ public/css/ main.less",
+    "less":  "less-watch-compiler src/less/ public/css/ main.less",
     "clean": "rm -rf public/js"
   },
   "dependencies": {
