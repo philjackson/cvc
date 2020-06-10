@@ -1,131 +1,134 @@
 (ns app.view.semantic
-  (:require [reagent.core :as r :refer [atom create-class as-element]]
+  (:require [reagent.core :as r :refer [atom]]
             [reagent.dom :as dom]
-            ["semantic-ui-react" :as semanticUIReact]
+            ["semantic-ui-react" :as sem]
             ["react-textarea-autosize" :as TextAreaResize]
             goog.object))
 
-(defn component
-  "Get a component:
+(defn component* [sem-comp]
+  (partial into [(r/adapt-react-class sem-comp)]))
 
-    (component \"Button\")
-    (component \"Menu\" \"Item\")"
-  [lib k & ks]
-  (if (seq ks)
-    (apply goog.object/getValueByKeys lib k ks)
-    (goog.object/get lib k)))
+(def component (memoize component*))
 
-;; Easy handle to the top-level extern for semantic-ui-react
-(def semantic (partial component semanticUIReact))
+(def responsive         #((component sem/Responsive) %&))
+(def only-mobile        (js->clj (.-onlyMobile      sem/Responsive) :keywordize-keys true))
+(def only-tablet        (js->clj (.-onlyTablet      sem/Responsive) :keywordize-keys true))
+(def only-computer      (js->clj (.-onlyComputer    sem/Responsive) :keywordize-keys true))
+(def only-largeScreen   (js->clj (.-onlyLargeScreen sem/Responsive) :keywordize-keys true))
+(def only-widescreen    (js->clj (.-onlyWidescreen  sem/Responsive) :keywordize-keys true))
 
-(def accordion (semantic "Accordion"))
-(def accordion-title (semantic "Accordion" "Title"))
-(def accordion-content (semantic "Accordion" "Content"))
+(def accordion          #((component sem/Accordion) %&))
+(def accordion-title    #((component sem/AccordionTitle) %&))
+(def accordion-content  #((component sem/AccordionContent) %&))
 
-(def grid (semantic "Grid"))
-(def row (semantic "Grid" "Row"))
-(def column (semantic "Grid" "Column"))
+(def grid               #((component sem/Grid) %&))
+(def row                #((component sem/GridRow) %&))
+(def column             #((component sem/GridColumn) %&))
 
-(def input (semantic "Input"))
-(def button (semantic "Button"))
-(def button-or (semantic "Button" "Or"))
-(def button-group (semantic "Button" "Group"))
-(def checkbox (semantic "Checkbox"))
+(def input              #((component sem/Input) %&))
+(def button             #((component sem/Button) %&))
+(def button-group       #((component sem/ButtonGroup) %&))
+(def checkbox           #((component sem/Checkbox) %&))
 
-(def modal (semantic "Modal"))
-(def modal-header (semantic "Modal" "Header"))
-(def modal-actions (semantic "Modal" "Actions"))
-(def modal-content (semantic "Modal" "Content"))
+(def modal              #((component sem/Modal) %&))
+(def modal-header       #((component sem/ModalHeader) %&))
+(def modal-actions      #((component sem/ModalActions) %&))
+(def modal-content      #((component sem/ModalContent) %&))
 
-(def statistic (semantic "Statistic"))
-(def statistic-value (semantic "Statistic" "Value"))
-(def statistic-label (semantic "Statistic" "Label"))
+(def statistic          #((component sem/Statistic) %&))
+(def statistic-value    #((component sem/StatisticValue) %&))
+(def statistic-label    #((component sem/StatisticLabel) %&))
 
-(def search (semantic "Search"))
-(def select (semantic "Select"))
+(def search             #((component sem/Search) %&))
+(def select             #((component sem/Select) %&))
 
-(def popup (semantic "Popup"))
-(def container (semantic "Container"))
+(def popup              #((component sem/Popup) %&))
+(def container          #((component sem/Container) %&))
 
-(def dimmer (semantic "Dimmer"))
-(def loader (semantic "Loader"))
+(def dimmer             #((component sem/Dimmer) %&))
+(def loader*            #((component sem/Loader) %&))
 
-(def rating (semantic "Rating"))
+(def loader-defs {:size "large" :inline "centered" :active true})
+(defn loader
+  ([content] (loader {} content))
+  ([options content] (loader* (merge loader-defs options)
+                              content)))
 
-(def tab (semantic "Tab"))
-(def tab-pane (semantic "Tab" "Pane"))
+(def rating             #((component sem/Rating) %&))
 
-(defn pane [name attached? body]
-  {:menuItem name
-   :render #(as-element [:> tab-pane {:attached attached?} body])})
+(def tab                #((component sem/Tab) %&))
+(def tab-pane           #((component sem/TabPane) %&))
 
-(def menu (semantic "Menu"))
-(def menu-menu (semantic "Menu" "Menu"))
-(def menu-item (semantic "Menu" "Item"))
+(def menu               #((component sem/Menu) %&))
+(def menu-menu          #((component sem/MenuMenu) %&))
+(def menu-header        #((component sem/MenuHeader) %&))
+(def menu-item          #((component sem/MenuItem) %&))
 
-(def segment (semantic "Segment"))
-(def sidebar (semantic "Sidebar"))
-(def sidebar-pusher (semantic "Sidebar" "Pusher"))
-(def sidebar-pushable (semantic "Sidebar" "Pushable"))
-(def icon (semantic "Icon"))
+(def segment            #((component sem/Segment) %&))
+(def sidebar            #((component sem/Sidebar) %&))
+(def sidebar-pusher     #((component sem/SidebarPusher) %&))
+(def sidebar-pushable   #((component sem/SidebarPushable) %&))
+(def icon               #((component sem/Icon) %&))
 
-(def card (semantic "Card"))
-(def card-group (semantic "Card" "Group"))
-(def card-content (semantic "Card" "Content"))
-(def card-header (semantic "Card" "Header"))
-(def card-meta (semantic "Card" "Meta"))
-(def card-description (semantic "Card" "Description"))
+(def card               #((component sem/Card) %&))
+(def card-group         #((component sem/CardGroup) %&))
+(def card-content       #((component sem/CardContent) %&))
+(def card-header        #((component sem/CardHeader) %&))
+(def card-meta          #((component sem/CardMeta) %&))
+(def card-description   #((component sem/CardDescription) %&))
 
-(def header (semantic "Header"))
-(def header-content (semantic "Header" "Content"))
-(def header-subheader (semantic "Header" "Subheader"))
+(def header             #((component sem/Header) %&))
+(def header-content     #((component sem/HeaderContent) %&))
+(def header-subheader   #((component sem/HeaderSubheader) %&))
 
-(def label (semantic "Label"))
-(def label-detail (semantic "Label" "Detail"))
-(def image (semantic "Image"))
-(def divider (semantic "Divider"))
+(def label              #((component sem/Label) %&))
+(def label-detail       #((component sem/LabelDetail) %&))
+(def image              #((component sem/Image) %&))
+(def divider            #((component sem/Divider) %&))
 
-(def breadcrumb (semantic "Breadcrumb"))
-(def breadcrumb-section (semantic "Breadcrumb" "Section"))
-(def breadcrumb-divider (semantic "Breadcrumb" "Divider"))
+(def breadcrumb         #((component sem/Breadcrumb) %&))
+(def breadcrumb-section #((component sem/BreadcrumbSection) %&))
+(def breadcrumb-divider #((component sem/BreadcrumbDivider) %&))
 
-(def table (semantic "Table"))
-(def tr (semantic "Table" "Row"))
-(def td (semantic "Table" "Cell"))
-(def tbody (semantic "Table" "Body"))
-(def thead (semantic "Table" "Header"))
-(def th (semantic "Table" "HeaderCell"))
+(def table              #((component sem/Table) %&))
+(def tr                 #((component sem/TableRow) %&))
+(def td                 #((component sem/TableCell) %&))
+(def tbody              #((component sem/TableBody) %&))
+(def thead              #((component sem/TableHeader) %&))
+(def th                 #((component sem/TableHeaderCell) %&))
 
-(def dropdown (semantic "Dropdown"))
-(def dropdown-menu (semantic "Dropdown" "Menu"))
-(def dropdown-item (semantic "Dropdown" "Item"))
-(def dropdown-header (semantic "Dropdown" "Header"))
-(def dropdown-divider (semantic "Dropdown" "Divider"))
+(def dropdown           #((component sem/Dropdown) %&))
+(def dropdown-menu      #((component sem/DropdownMenu) %&))
+(def dropdown-item      #((component sem/DropdownItem) %&))
+(def dropdown-header    #((component sem/DropdownHeader) %&))
+(def dropdown-divider   #((component sem/DropdownDivider) %&))
 
-(def form (semantic "Form"))
-(def form-group (semantic "Form" "Group"))
-(def form-select (semantic "Form" "Select"))
-(def form-field (semantic "Form" "Field"))
+(def form               #((component sem/Form) %&))
+(def form-group         #((component sem/FormGroup) %&))
+(def form-select        #((component sem/FormSelect) %&))
+(def form-field         #((component sem/FormField) %&))
 
-(def message (semantic "Message"))
-(def message-header (semantic "Message" "Header"))
-(def message-item (semantic "Message" "Item"))
+(def message            #((component sem/Message) %&))
+(def message-header     #((component sem/MessageHeader) %&))
+(def message-item       #((component sem/MessageItem) %&))
 
-(def step (semantic "Step"))
-(def step-group (semantic "Step" "Group"))
-(def step-title (semantic "Step" "Title"))
-(def step-content (semantic "Step" "Content"))
-(def step-description (semantic "Step" "Description"))
+(def step               #((component sem/Step) %&))
+(def step-group         #((component sem/StepGroup) %&))
+(def step-title         #((component sem/StepTitle) %&))
+(def step-content       #((component sem/StepContent) %&))
+(def step-description   #((component sem/StepDescription) %&))
 
-(def feed (semantic "Feed"))
-(def feed-event (semantic "Feed" "Event"))
-(def feed-label (semantic "Feed" "Label"))
-(def feed-summary (semantic "Feed" "Summary"))
-(def feed-like (semantic "Feed" "Like"))
-(def feed-user (semantic "Feed" "User"))
-(def feed-date (semantic "Feed" "Date"))
-(def feed-extra (semantic "Feed" "Extra"))
-(def feed-content (semantic "Feed" "Content"))
+(def feed               #((component sem/Feed) %&))
+(def feed-event         #((component sem/FeedEvent) %&))
+(def feed-label         #((component sem/FeedLabel) %&))
+(def feed-summary       #((component sem/FeedSummary) %&))
+(def feed-like          #((component sem/FeedLike) %&))
+(def feed-user          #((component sem/FeedUser) %&))
+(def feed-date          #((component sem/FeedDate) %&))
+(def feed-extra         #((component sem/FeedExtra) %&))
+(def feed-content       #((component sem/FeedContent) %&))
+
+(def transition         #((component sem/Transition) %&))
 
 (defn input-field [options]
   (let [has-focus? (atom false)
@@ -167,7 +170,7 @@
 
 ;; This will automatically resize to the size on the input text
 (defn textarea [{:keys [atom label info]}]
-  [:> form-field 
+  [:> form-field
    [:label label]
    (when info [:small.info info])
    [tb atom]])
