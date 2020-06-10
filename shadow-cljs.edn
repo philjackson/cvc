@@ -1,20 +1,21 @@
 {:builds
  {:dev {:asset-path "/js"
         :modules {:main {:init-fn app.core/main}}
-        :devtools {:preloads [hashp.core]}
+        :devtools {:preloads [hashp.core]
+                   :http-port 3000
+                   :http-root "public"}
         :output-dir "public/js"
         :target :browser
-        :compiler-options
-        {:ghostwheel
-         {:check true
-          :num-tests 10
-          :outstrument true
-          :report-output :repl}}}
+        :compiler-options {:ghostwheel
+                           {:check true
+                            :num-tests 10
+                            :outstrument true
+                            :report-output :repl}}}
   :test {:target :browser-test
          :test-dir "resources/public/js/test"
          :ns-regexp "-test$"
-         :devtools  {:http-port 8021
-                     :http-root "resources/public/js/test"}}
+         :devtools {:http-port 8021
+                    :http-root "resources/public/js/test"}}
   :prod {:asset-path "/js"
          :modules {:main {:init-fn app.core/main}}
          :devtools {:preloads [hashp.core]}
@@ -31,7 +32,6 @@
                 [com.cognitect/transit-cljs "0.8.264"]
                 [alandipert/storage-atom "2.0.1"]
                 [com.rpl/specter "1.1.3"]]
- :dev-http {3000 "public"}
  :nrepl {:port 3333
          :init-ns user}
  :source-paths ["src"]}
