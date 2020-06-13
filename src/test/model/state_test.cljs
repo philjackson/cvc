@@ -1,24 +1,61 @@
 (ns test.model.state-test
   (:require [app.model.state :as state]
+            [clojure.spec.gen.alpha :as gen]
             [cljs.spec.alpha :as s]
             [cljs.test :include-macros true :refer [deftest is run-tests testing are]]))
+
+(defn gen-gen [thing]
+  (gen/generate (s/gen thing)))
 
 (deftest check-specs
   (testing "::state/id"
     (testing "valid values"
       (are [value] (s/valid? ::state/id value)
-        "1234567890"
-        "hello"))
+        #uuid "188923e8-fcda-4315-a40a-43e402b986f5"
+        #uuid "8fdd5a89-8c5d-4efb-bd9e-570622d669a2"))
 
     (testing "invalid values"
       (are [value] (not (s/valid? ::state/id value))
         nil
-        #uuid "b56f61e8-312f-4f7b-8ce6-e0a49b93ed57"
         1
         {:one 1}
         :one
         []
         [1 2 3])))
+
+  (testing "::state/cv"
+    (testing "valid values"
+      (are [value] (s/valid? ::state/cv value)
+        {:id (gen-gen ::state/id)}))
+
+    (testing "invalid values"
+      (are [value] (not (s/valid? ::state/cv value))
+        {:id nil}
+        nil
+        "hi")))
+
+  (testing "::state/docs"
+    (testing "valid values"
+      (are [value] (s/valid? ::state/docs value)
+        []
+        [(gen-gen ::state/cv)]))
+
+    (testing "invalid values"
+      (are [value] (not (s/valid? ::state/docs value))
+        {:id nil}
+        (gen-gen ::state/cv)
+        "hi")))
+
+  (testing "::state/cvs"
+    (testing "valid values"
+      (are [value] (s/valid? ::state/cvs value)
+        {:selected (gen-gen ::state/id)
+         :docs (gen-gen ::state/docs)}))
+
+    (testing "invalid values"
+      (are [value] (not (s/valid? ::state/cvs value))
+        nil
+        {:selected (gen-gen ::state/id)})))
 
   (testing "::state/route-match"
     (testing "valid values"
@@ -56,7 +93,11 @@
     (testing "valid values"
       (are [value] (s/valid? ::state/state value)
         @state/all-seeing-state
-        {:config {} :cv-data {} :route-match {} :user {}}))
+        {:config {}
+         :cvs {:selected nil
+               :docs []}
+         :route-match {}
+         :user {}}))
 
     (testing "invalid values"
       (are [value] (not (s/valid? ::state/state value))
