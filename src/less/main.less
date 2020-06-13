@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+@wide-screen-down: ~'only screen and (max-width: 1199px)';
+@desktop-down: ~'only screen and (max-width: 991px)';
+@tablet-down: ~'only screen and (max-width: 767px)';
+@phone-down: ~'only screen and (max-width: 480px)';
+@small-phone-down: ~'only screen and (max-width: 320px)';
+
+@wide-screen-up: ~'only screen and (min-width: 1199px)';
+@desktop-up: ~'only screen and (min-width: 991px)';
+@tablet-up: ~'only screen and (min-width: 767px)';
+@phone-up: ~'only screen and (min-width: 480px)';
+@small-phone-up: ~'only screen and (min-width: 320px)';
+
+@primary: #2572C1;
+@background: #F6F6F6;
+@section_background: #fff;
+
+body {
+    background: @background;
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    @media @tablet-up {
+        margin: auto;
+        margin-top: 30px;
+        max-width: 95%;
+    }
+}
+
+.card {
+    @media @tablet-up {
+        border-radius: .5rem;
+    }
+
+    background: @section_background;
+    box-shadow: 0 4px 10px 0 rgba(0,0,0,.1);
+    // -webkit-transition: all .3s ease-in-out;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+
+    color: white;
+    border: 1px solid #ccc;
+    background: linear-gradient(to right, #4A569D, #DC2424);
+
+    .left {
+        flex-grow: 2;
+
+        .upper {
+            padding: 10px;
+
+            .title {
+                padding-top: 20px;
+                font-family: 'Pacifico', cursive;
+                font-size: 3em;
+            }
+        }
+
+        .lower {
+            padding: 10px;
+
+            a {
+                color: white;
+                &:not(:last-child) {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+
+    .right {
+        display: flex;
+        margin-right: 20px;
+        
+        .user-img {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #fff;
+            border-radius: 5px;
+        }
+    }
+}
+
+.config-and-view {
+   margin-top: 20px; 
+   padding: 20px;
+   display: flex;
+
+   .config {
+
+   }
+
+}

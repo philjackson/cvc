@@ -37,6 +37,6 @@
 ;; cursors for the most commonly accessed parts
 (def config (r/cursor all-seeing-state [:config]))
 (def user   (r/cursor all-seeing-state [:user]))
-(def cvs    (r/cursor all-seeing-state [:cv-data]))
+(def cvs    (r/cursor all-seeing-state [:cvs]))
 (def match  (r/cursor all-seeing-state [:route-match]))
 (def view   (r/cursor all-seeing-state [:route-match :data :view]))

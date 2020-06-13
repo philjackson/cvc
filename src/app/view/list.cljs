@@ -1,7 +1,7 @@
 (ns app.view.list
   (:require [reagent.core :as r :refer [atom]]
             [app.model.cv :refer [gen-id]]
-            [com.rpl.specter :refer [ALL NONE pred= selected?] :refer-macros [setval select select-one]]
+            [com.rpl.specter :refer [ALL NONE pred= selected?] :refer-macros [setval select-one]]
             ["react-beautiful-dnd" :as dnd :refer [DragDropContext Draggable Droppable]]
             [app.view.semantic :as s]))
 
@@ -49,7 +49,7 @@
 (defn list-item [ref line-item-fn index edit-fn delete-fn]
   [:> Draggable {:draggable-id (str (:id ref))
                  :index index}
-   (fn [provided snapshot]
+   (fn [provided _]
      (r/as-element
       [:div.list-item (merge {:ref (.-innerRef provided)}
                              (js->clj (.-draggableProps provided))
@@ -76,7 +76,7 @@
         ^{:key @section}
         [:> DragDropContext {:onDragEnd (partial drag-end section)}
          [:> Droppable {:droppable-id "droppable" :type "thing"}
-          (fn [provided snapshot]
+          (fn [provided _]
             (r/as-element
              [:div (merge {:ref (.-innerRef provided)}
                           (js->clj (.-droppableProps provided))) 
