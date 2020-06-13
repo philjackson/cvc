@@ -18,9 +18,8 @@
       ;; we have all of our data, load the view, giving it a (css)
       ;; class name and passing in any parameters for convenience
       :else
-      (let [{:keys [name parameters]} (:data @state/match)]
-        [:div {:class name}
-         [@state/view parameters]]))))
+      (let [{:keys [parameters]} (:data @state/match)]
+        [@state/view parameters]))))
 
 (defn ^:dev/after-load render []
   (dom/render
