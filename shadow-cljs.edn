@@ -14,7 +14,7 @@
   :test {:target :browser-test
          :test-dir "resources/public/js/test"
          :ns-regexp "-test$"
-         :devtools {:http-port 8021
+         :devtools {:http-port 3001
                     :http-root "resources/public/js/test"}}
   :prod {:asset-path "/js"
          :modules {:main {:init-fn app.core/main}}
