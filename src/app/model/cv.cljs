@@ -1,12 +1,33 @@
 (ns app.model.cv
-  (:require [cljs.spec.alpha :as s]
+  (:require [app.model.state :as state]
+            [app.debug :refer [debug?]]
+            [cljs.spec.alpha :as s]
             [ghostwheel.core :as g
-             :refer [>defn => | ?]]))
+             :refer [>defn =>]]))
+
+(>defn select
+  [state id]
+  [::state/state ::state/id => ::state/state]
+  (assoc-in state [:cvs :selected] id))
+
+(>defn add
+  [state cv]
+  [::state/state ::state/cv => ::state/state]
+  (assoc-in state [:cvs :docs (:id cv)] cv))
+
+(>defn selected
+  [state]
+  [::state/state => (s/nilable ::state/id)]
+  (-> state
+      :cvs
+      :selected))
 
 (>defn active-cv-path
   ([state]
-   [any? => coll?]
-   [:data])
+   [::state/state => coll?]
+   [:cvs :docs (selected state)])
   ([state & extra-paths]
-   [any? (s/coll-of string?) => coll?]
+   [::state/state (s/coll-of string?) => coll?]
    (concat (active-cv-path state) extra-paths)))
+
+(when debug? (g/check))

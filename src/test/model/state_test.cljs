@@ -37,8 +37,8 @@
   (testing "::state/docs"
     (testing "valid values"
       (are [value] (s/valid? ::state/docs value)
-        []
-        [(gen-gen ::state/cv)]))
+        {}
+        {(gen-gen ::state/id) (gen-gen ::state/cv)}))
 
     (testing "invalid values"
       (are [value] (not (s/valid? ::state/docs value))
@@ -94,8 +94,7 @@
       (are [value] (s/valid? ::state/state value)
         @state/all-seeing-state
         {:config {}
-         :cvs {:selected nil
-               :docs []}
+         :cvs (gen-gen ::state/cvs)
          :route-match {}
          :user {}}))
 
