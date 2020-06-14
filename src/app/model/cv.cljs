@@ -24,8 +24,9 @@
 
 (>defn active-cv-path
   ([state]
-   [::state/state => coll?]
-   [:cvs :docs (selected state)])
+   [::state/state => (s/nilable coll?)]
+   (when-let [sel (selected state)]
+     [:cvs :docs (selected state)]))
   ([state & extra-paths]
    [::state/state (s/coll-of string?) => coll?]
    (concat (active-cv-path state) extra-paths)))

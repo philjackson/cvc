@@ -7,7 +7,8 @@
 
 (deftest select-test
   (let [rand-id (random-uuid)]
-    (is (= (cv/select (initial-state) rand-id)
+    (is (= (-> (initial-state)
+               (cv/select rand-id))
            {:cvs {:docs {} :selected rand-id}
             :route-match nil
             :user nil
@@ -31,6 +32,8 @@
 
 (deftest active-cv-path
   (let [rand-id (random-uuid)]
+    (is (nil? (-> (initial-state)
+                  (cv/active-cv-path))))
     (is (= (-> (initial-state)
                (cv/add {:id rand-id})
                (cv/select rand-id)
