@@ -2,19 +2,19 @@
   (:require [reagent.core :as r :refer [atom]]
             [cljs.spec.alpha :as s]
             [app.debug :refer [debug?]]
-            [ghostwheel.core :as g :refer [>defn =>]]))
+            [ghostwheel.core :as g :refer [>defn => ?]]))
 
 (def non-blank-str? #(not (clojure.string/blank? %)))
 
 (s/def ::id uuid?)
-(s/def ::selected (s/nilable ::id))
+(s/def ::selected (? ::id))
 (s/def ::cvs (s/keys :req-un [::selected ::docs]))
 (s/def ::docs (s/map-of ::id ::cv))
 (s/def ::cv (s/keys :req-un [::id]))
 
 (s/def ::config (s/keys))
 
-(s/def ::route-match (s/nilable (s/keys)))
+(s/def ::route-match (? (s/keys)))
 
 (s/def ::uid (s/and string? non-blank-str?))
 (s/def ::display-name string?)

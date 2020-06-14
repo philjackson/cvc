@@ -3,7 +3,7 @@
             [app.debug :refer [debug?]]
             [cljs.spec.alpha :as s]
             [ghostwheel.core :as g
-             :refer [>defn =>]]))
+             :refer [>defn => ?]]))
 
 (>defn select
   [cv-state id]
@@ -17,12 +17,12 @@
 
 (>defn selected
   [cv-state]
-  [::state/cvs => (s/nilable ::state/id)]
+  [::state/cvs => (? ::state/id)]
   (:selected cv-state))
 
 (>defn active-cv-path
   ([cv-state]
-   [::state/cvs => (s/nilable coll?)]
+   [::state/cvs => (? coll?)]
    (when-let [sel (selected cv-state)]
      [:docs (selected cv-state)]))
   ([cv-state & extra-paths]
