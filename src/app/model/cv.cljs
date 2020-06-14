@@ -1,4 +1,5 @@
 (ns app.model.cv
+  #:ghostwheel.core{:check true :num-tests 10}
   (:require [app.model.state :as state]
             [app.debug :refer [debug?]]
             [cljs.spec.alpha :as s]
@@ -28,5 +29,3 @@
   ([cv-state & extra-paths]
    [::state/cvs (s/coll-of string?) => coll?]
    (concat (active-cv-path cv-state) extra-paths)))
-
-(when debug? (g/check))

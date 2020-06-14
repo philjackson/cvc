@@ -1,4 +1,5 @@
 (ns app.model.state
+  #:ghostwheel.core{:check true :num-tests 10}
   (:require [reagent.core :as r :refer [atom]]
             [cljs.spec.alpha :as s]
             [app.debug :refer [debug?]]
@@ -42,5 +43,3 @@
 (def cvs    (r/cursor all-seeing-state [:cvs]))
 (def match  (r/cursor all-seeing-state [:route-match]))
 (def view   (r/cursor all-seeing-state [:route-match :data :view]))
-
-(when debug? (g/check))
