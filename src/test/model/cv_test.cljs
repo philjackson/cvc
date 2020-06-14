@@ -8,34 +8,38 @@
 (deftest select-test
   (let [rand-id (random-uuid)]
     (is (= (-> (initial-state)
+               :cvs
                (cv/select rand-id))
-           {:cvs {:docs {} :selected rand-id}
-            :route-match nil
-            :user nil
-            :config {}}))))
+           {:docs {} :selected rand-id}))))
 
 (deftest selected-test
-  (is (nil? (cv/selected (initial-state))))
+  (is (nil? (-> (initial-state)
+                :cvs
+                cv/selected)))
 
   (let [rand-id (random-uuid)]
-    (is (= (cv/selected (cv/select (initial-state) rand-id)) rand-id))))
+    (is (= (-> (initial-state)
+               :cvs
+               (cv/select rand-id)
+               cv/selected)
+           rand-id))))
 
 (deftest add-cv-test
   (let [rand-id (random-uuid)]
     (is (= (-> (initial-state)
+               :cvs
                (cv/add {:id rand-id}))
-           {:cvs {:docs {rand-id {:id rand-id}}
-                  :selected nil}
-            :route-match nil
-            :user nil
-            :config {}}))))
+           {:docs {rand-id {:id rand-id}}
+            :selected nil}))))
 
 (deftest active-cv-path
   (let [rand-id (random-uuid)]
     (is (nil? (-> (initial-state)
-                  (cv/active-cv-path))))
+                  :cvs
+                  cv/active-cv-path)))
     (is (= (-> (initial-state)
+               :cvs
                (cv/add {:id rand-id})
                (cv/select rand-id)
-               (cv/active-cv-path))
-           [:cvs :docs rand-id]))))
+               cv/active-cv-path)
+           [:docs rand-id]))))

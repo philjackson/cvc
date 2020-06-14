@@ -6,29 +6,27 @@
              :refer [>defn =>]]))
 
 (>defn select
-  [state id]
-  [::state/state ::state/id => ::state/state]
-  (assoc-in state [:cvs :selected] id))
+  [cv-state id]
+  [::state/cvs ::state/id => ::state/cvs]
+  (assoc cv-state :selected id))
 
 (>defn add
-  [state cv]
-  [::state/state ::state/cv => ::state/state]
-  (assoc-in state [:cvs :docs (:id cv)] cv))
+  [cv-state cv]
+  [::state/cvs ::state/cv => ::state/cvs]
+  (assoc-in cv-state [:docs (:id cv)] cv))
 
 (>defn selected
-  [state]
-  [::state/state => (s/nilable ::state/id)]
-  (-> state
-      :cvs
-      :selected))
+  [cv-state]
+  [::state/cvs => (s/nilable ::state/id)]
+  (:selected cv-state))
 
 (>defn active-cv-path
-  ([state]
-   [::state/state => (s/nilable coll?)]
-   (when-let [sel (selected state)]
-     [:cvs :docs (selected state)]))
-  ([state & extra-paths]
-   [::state/state (s/coll-of string?) => coll?]
-   (concat (active-cv-path state) extra-paths)))
+  ([cv-state]
+   [::state/cvs => (s/nilable coll?)]
+   (when-let [sel (selected cv-state)]
+     [:docs (selected cv-state)]))
+  ([cv-state & extra-paths]
+   [::state/cvs (s/coll-of string?) => coll?]
+   (concat (active-cv-path cv-state) extra-paths)))
 
 (when debug? (g/check))
