@@ -13,6 +13,6 @@
        [:div.title "Next CV"]]
       [:div.lower
        [:a {:href "/"} "home"]]]
-     (when #p user
+     (when user
        [:div.right
         [:img.user-img {:src (:photo-url user)}]])]))
