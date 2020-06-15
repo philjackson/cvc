@@ -29,3 +29,8 @@
   ([cv-state & extra-paths]
    [::state/cvs (s/coll-of string?) => coll?]
    (concat (active-cv-path cv-state) extra-paths)))
+
+(>defn does-exist?
+  [cv-state id]
+  [::state/cvs ::state/id => boolean?]
+  (contains? (:docs cv-state) id))

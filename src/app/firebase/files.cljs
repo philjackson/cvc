@@ -8,9 +8,7 @@
             [app.model.cv :refer [details->blob]]
             [app.firebase.config :refer [firebase-config]]))
 
-(>defn get-filename
-  [uid]
-  [:app.model.cv/id => string?]
+(defn get-filename [uid]
   (clojure.string/join "/"
                        ["private"
                         (.. js/window

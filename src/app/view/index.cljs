@@ -2,123 +2,26 @@
   (:require [app.view.semantic :as s]
             [app.debug :refer [debug?]]
             [app.view.menu :as menu]
+            [app.model.cv :as cv]
+            [reitit.frontend.easy :as rfe]
             [app.model.state :as state]
-            [app.model.cv :refer [active-cv-path]]
-            [app.view.list :refer [present-list]]
-            [app.view.cv :refer [cv-view]]
-            [app.view.config :refer [config-view]]
-            ["semantic-ui-react" :as sem]
-            [reagent.core :refer [with-let atom cursor]]))
+            [app.view.cv :refer [cv-view]]))
 
 (defn loader [msg]
   [s/dimmer {:inverted true :active true}
    [s/loader {:size "massive"} msg]])
 
-(defn builder-personal []
-  [s/form
-   [:h2 "Personal:"]
-   [:<>
-    [s/input-field {:atom (cursor state/cvs (active-cv-path @state/cvs :full-name))
-                    :label "Full name:"}]
-    [s/input-field {:atom (cursor state/cvs (active-cv-path @state/cvs :location))
-                    :placeholder "London, UK"
-                    :label "Location:"}]
-    [s/input-field {:atom (cursor state/cvs (active-cv-path @state/cvs :job-title))
-                    :label "Job title:"
-                    :placeholder "CFO, advisor"}]
-    [s/textarea {:atom (cursor state/cvs (active-cv-path @state/cvs :summary))
-                 :info "Basic Markdown is supported in this field."
-                 :label "Summary text:"}]]])
+(defn index [builder-view]
+  (fn [params]
+    [:<>
+     [menu/menu params]
+     [:div.builder-and-view.card
+      [:a {:href (rfe/href :personal {:cv-id (cv/selected @state/cvs)})} "personal"]
+      [:a {:href (rfe/href :education {:cv-id (cv/selected @state/cvs)})} "education"]
+      [:a {:href (rfe/href :workexp {:cv-id (cv/selected @state/cvs)})} "workexp"]
+      [:a {:href (rfe/href :references {:cv-id (cv/selected @state/cvs)})} "references"]
 
-(defn builder-workexp []
-  (let [section (cursor state/cvs (active-cv-path @state/cvs :workexp))]
-    (fn []
-      [:<>
-       [:h2 "Work experience:"]
-       [present-list section
-        "Add new work experience item"
-        #(str (:name %) " - " (:position %))
-        (fn [temp-atom]
-          [:div
-           [s/input-field {:atom (cursor temp-atom [:name])
-                           :label "Workplace name:"}]
-           [s/input-field {:atom (cursor temp-atom [:position])
-                           :label "Position within company:"}]
-           [s/month-year {:atom (cursor temp-atom [:start])
-                          :label "Date started:"}]
-           [s/month-year {:atom (cursor temp-atom [:finish])
-                          :label "Date finished:"
-                          :on-goable? true}]
-           [s/textarea {:atom (cursor temp-atom [:comments])
-                        :info "Basic Markdown is supported in this field."
-                        :label "Description:"}]])]])))
-
-(defn builder-education []
-  (let [section (cursor state/cvs (active-cv-path @state/cvs :education))]
-    (fn []
-      [:<>
-       [:h2 "Education:"]
-       [present-list
-        section
-        "Add new institution"
-        #(str (:institution %) " - " (:qualification %))
-        (fn [temp-atom]
-          [:<>
-           [s/input-field {:atom  (cursor temp-atom [:institution])
-                           :label "Institution:"}]
-           [s/input-field {:atom  (cursor temp-atom [:qualification])
-                           :label "Qualification:"
-                           :placeholder "BA, Corp. Finance"}]
-           [s/month-year {:atom (cursor temp-atom [:start])
-                          :label "Start:"}]
-           [s/month-year {:atom (cursor temp-atom [:finish])
-                          :label "Finish:"
-                          :on-goable? true}]])]])))
-
-(defn builder-references []
-  (let [section (cursor state/cvs (active-cv-path @state/cvs :references))]
-    (fn []
-      [:<>
-       [:h2 "References:"]
-       [present-list section
-        "Add new reference"
-        #(str (:name %) " - " (:position %))
-        (fn [temp-atom]
-          [:div
-           [s/input-field {:atom (cursor temp-atom [:name])
-                           :label "Referee Name:"}]
-           [s/input-field {:atom (cursor temp-atom [:position])
-                           :label "Referee Position/company:"}]
-           [s/textarea {:atom (cursor temp-atom [:comments])
-                        :label "Comments:"}]])]])))
-
-(defn builder-contact []
-  [:> s/form
-   [:h2 "General contact state/cvs:"]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :email))
-                   :label "Email:"}]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :website))
-                   :label "Website:"}]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :phone))
-                   :label "Phone:"}]
-   [:h2 "Social contact state/cvs:"]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :linkedin))
-                   :label "Linkedin:"}]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :gitlab))
-                   :label "Gitlab:"}]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :github))
-                   :label "Github:"}]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :deviantart))
-                   :label "Deviantart:"}]
-   [s/input-field {:atom  (cursor state/cvs (active-cv-path @state/cvs :fivehunpx))
-                   :label "500px:"}]])
-
-(defn index [params]
-  [:<>
-   [menu/menu params]
-   [:div.config-and-view.card
-    [config-view params]
-    [cv-view params]
-    [builder-workexp]]
-   (when debug?
-     [:pre (with-out-str (cljs.pprint/pprint @state/cvs))])])
+      [builder-view]
+      [cv-view params]]
+     (when debug?
+       [:pre (with-out-str (cljs.pprint/pprint @state/cvs))])]))

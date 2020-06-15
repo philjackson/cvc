@@ -21,15 +21,13 @@
       ;; class name and passing in any parameters for convenience
       :else
       (let [{:keys [parameters]} (:data @state/match)]
-        [@state/view parameters]))))
+        [@state/view parameters] ))))
 
 (defn ^:dev/after-load render []
-  (dom/render
-   [current-page]
-   (.getElementById js/document "app")))
+  (router/init)
+  (dom/render [current-page] (.getElementById js/document "app")))
 
 (defn ^:export main []
-  (router/init)
   (render)
   (auth/init (fn [user]
                (if user 
