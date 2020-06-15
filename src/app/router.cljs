@@ -12,10 +12,6 @@
                         :parameters
                         :path
                         :cv-id))]
-    ;; TODO: sort out a way to 404
-    #_(when-not (cv/does-exist? @state/cvs cv-id)
-        (throw (js/Error. {:type :four-o-four
-                           :message "The requested CV doesn't exist."})))
     (reset! state/cvs (cv/select @state/cvs cv-id))))
 
 (def routes

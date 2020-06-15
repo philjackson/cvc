@@ -1,6 +1,7 @@
 (ns app.model.cv
   #:ghostwheel.core{:check true :num-tests 10}
   (:require [app.model.state :as state]
+            [cognitect.transit :as transit]
             [app.debug :refer [debug?]]
             [cljs.spec.alpha :as s]
             [ghostwheel.core :as g
@@ -34,3 +35,10 @@
   [cv-state id]
   [::state/cvs ::state/id => boolean?]
   (contains? (:docs cv-state) id))
+
+(s/def ::js-blob #(instance? js/Blob %))
+(>defn cv->blob
+  [cv-state]
+  [::state/cvs => ::js-blob]
+  (js/Blob. [(transit/write (transit/writer :json) cv-state)]
+            #js {:type "application/edn;charset=utf-8"}))

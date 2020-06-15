@@ -2,10 +2,8 @@
   (:require ["firebase/app" :as firebase]
             ["firebase/auth"]
             ["firebase/storage"]
-            [ghostwheel.core :as g :refer [>defn =>]]
+            [app.model.cv :refer [cv->blob]]
             [cognitect.transit :as transit]
-            [reagent.core :as r :refer [atom]]
-            [app.model.cv :refer [details->blob]]
             [app.firebase.config :refer [firebase-config]]))
 
 (defn get-filename [uid]
@@ -17,10 +15,10 @@
                         uid
                         "cvs.edn"]))
 
-(defn upload-file [details uid]
+(defn upload-file [cv-state uid]
   (let [filename (get-filename uid)
         ref (.child (.ref (.storage firebase)) filename)
-        blob (details->blob details)]
+        blob (cv->blob cv-state)]
     (-> (.put ref blob)
         (.then (fn [snapshot]
                  (let [bytes (.-bytesTransferred snapshot)]
