@@ -5,13 +5,14 @@
   "scripts": {
     "start": "shadow-cljs watch dev test",
     "build": "npm run clean && shadow-cljs release prod",
-    "less":  "less-watch-compiler src/less/ public/css/ main.less",
+    "less": "less-watch-compiler src/less/ public/css/ main.less",
     "clean": "rm -rf public/js"
   },
   "dependencies": {
     "create-react-class": "^15.6.3",
     "firebase": "^7.15.0",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
     "react-textarea-autosize": "^8.0.1",
     "semantic-ui-react": "^0.88.2"
