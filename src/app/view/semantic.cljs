@@ -136,8 +136,8 @@
     (fn [options]
       (let [{:keys [info label read-only atom on-return-press]} options]
         ;; only show an error when we don't have focus
-        [:> form-field {:error (and (not @has-focus?)
-                                    (not @is-valid?))}
+        [form-field {:error (and (not @has-focus?)
+                                 (not @is-valid?))}
          [:label label]
          [:input.ui.input {:type          (if (:password? options) "password" "text")
                            :name          (or (:name options) label)
@@ -152,7 +152,7 @@
                            :on-change     #(reset! atom (-> % .-target .-value))}]
          (when icon
            [:i {:aria-hidden true :class ["icon" icon]}])
-         (when info [:> message {:info true :icon "info" :content info}])]))))
+         (when info [message {:info true :icon "info" :content info}])]))))
 
 (defn tb [atom]
   (let [ta (.-default TextAreaResize)]
@@ -162,7 +162,7 @@
         [:> ta {:default-value @atom
                 :on-change #(reset! atom (-> % .-target .-value))}])
 
-      :component-will-update
+      :component-did-update
       (fn [this [_ atom]]
         (let [area (dom/dom-node this)]
           (when-not (= @atom (.-value area))
@@ -170,7 +170,7 @@
 
 ;; This will automatically resize to the size on the input text
 (defn textarea [{:keys [atom label info]}]
-  [:> form-field
+  [form-field
    [:label label]
    (when info [:small.info info])
    [tb atom]])
@@ -179,31 +179,31 @@
   [:<>
    [:b [:label label]]
    (when-not (:on-going? @atom)
-     [:> form-group {:widths 2}
-      [:> form-field
-       [:> select {:options [{:key :jan :value :jan :text "January"}
-                             {:key :feb :value :feb :text "February"}
-                             {:key :mar :value :mar :text "March"}
-                             {:key :apr :value :apr :text "April"}
-                             {:key :may :value :may :text "May"}
-                             {:key :jun :value :jun :text "June"}
-                             {:key :jul :value :jul :text "July"}
-                             {:key :aug :value :aug :text "August"}
-                             {:key :sep :value :sep :text "September"}
-                             {:key :oct :value :oct :text "October"}
-                             {:key :nov :value :nov :text "November"}
-                             {:key :dec :value :dec :text "December"}]
-                   :value (:month @atom)
-                   :on-change #(swap! atom assoc :month (keyword (:value (js->clj %2 :keywordize-keys true))))
-                   :placeholder "Month"}]]
-      [:> form-field {:control "input"
-                      :placeholder "Year"
-                      :value (or (:year @atom) 1900)
-                      :on-change #(swap! atom assoc :year (-> % .-target .-value))
-                      :type "number"}]])
+     [form-group {:widths 2}
+      [form-field
+       [select {:options [{:key :jan :value :jan :text "January"}
+                          {:key :feb :value :feb :text "February"}
+                          {:key :mar :value :mar :text "March"}
+                          {:key :apr :value :apr :text "April"}
+                          {:key :may :value :may :text "May"}
+                          {:key :jun :value :jun :text "June"}
+                          {:key :jul :value :jul :text "July"}
+                          {:key :aug :value :aug :text "August"}
+                          {:key :sep :value :sep :text "September"}
+                          {:key :oct :value :oct :text "October"}
+                          {:key :nov :value :nov :text "November"}
+                          {:key :dec :value :dec :text "December"}]
+                :value (:month @atom)
+                :on-change #(swap! atom assoc :month (keyword (:value (js->clj %2 :keywordize-keys true))))
+                :placeholder "Month"}]]
+      [form-field {:control "input"
+                   :placeholder "Year"
+                   :value (or (:year @atom) 1900)
+                   :on-change #(swap! atom assoc :year (-> % .-target .-value))
+                   :type "number"}]])
    (when on-goable?
-     [:> form-field
-      [:> checkbox {:toggle true
-                    :checked (boolean (:on-going? @atom))
-                    :on-change #(swap! atom assoc :on-going? (:checked (js->clj %2 :keywordize-keys true)))
-                    :label "Currently ongoing."}]])])
+     [form-field
+      [checkbox {:toggle true
+                 :checked (boolean (:on-going? @atom))
+                 :on-change #(swap! atom assoc :on-going? (:checked (js->clj %2 :keywordize-keys true)))
+                 :label "Currently ongoing."}]])])

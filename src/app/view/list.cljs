@@ -1,6 +1,5 @@
 (ns app.view.list
   (:require [reagent.core :as r :refer [atom]]
-            [app.model.cv :refer [gen-id]]
             [com.rpl.specter :refer [ALL NONE pred= selected?] :refer-macros [setval select-one]]
             ["react-beautiful-dnd" :as dnd :refer [DragDropContext Draggable Droppable]]
             [app.view.semantic :as s]))
@@ -57,14 +56,14 @@
        [:div.grab-handle]
        [:div.list-text (line-item-fn ref)]
        [:div.list-buttons
-        [:> s/button {:title "Edit"
-                      :size "tiny"
-                      :icon "edit"
-                      :on-click edit-fn}]
-        [:> s/button {:title "Delete"
-                      :size "tiny"
-                      :icon "delete"
-                      :on-click delete-fn}]]]))])
+        [s/button {:title "Edit"
+                   :size "tiny"
+                   :icon "edit"
+                   :on-click edit-fn}]
+        [s/button {:title "Delete"
+                   :size "tiny"
+                   :icon "delete"
+                   :on-click delete-fn}]]]))])
 
 (defn present-list [section new-item-str line-item-fn form]
   (let [updating? (atom false)
@@ -80,11 +79,11 @@
             (r/as-element
              [:div (merge {:ref (.-innerRef provided)}
                           (js->clj (.-droppableProps provided))) 
-              [:> s/button {:fluid true
-                            :primary true
-                            :on-click (fn []
-                                        (reset! updating? true)
-                                        (reset! new-item {}))}
+              [s/button {:fluid true
+                         :primary true
+                         :on-click (fn []
+                                     (reset! updating? true)
+                                     (reset! new-item {}))}
                new-item-str]
               [:div.list
                (map-indexed (fn [i ref]
@@ -100,16 +99,16 @@
 
         ;; form for editing
         [:div.list-editor
-         [:> s/form {:on-submit (fn []
-                                  (if (:id @new-item)
-                                    ;; we're updating this item
-                                    (reset! section (list-update @section
-                                                                 (:id @new-item)
-                                                                 @new-item))
-                                    ;; we're adding a brand new item
-                                    (swap! section conj (assoc @new-item :id (gen-id))))
-                                  (reset! new-item {})
-                                  (reset! updating? false))}
+         [s/form {:on-submit (fn []
+                               (if (:id @new-item)
+                                 ;; we're updating this item
+                                 (reset! section (list-update @section
+                                                              (:id @new-item)
+                                                              @new-item))
+                                 ;; we're adding a brand new item
+                                 (swap! section conj (assoc @new-item :id (random-uuid))))
+                               (reset! new-item {})
+                               (reset! updating? false))}
           [form new-item]
-          [:> s/button  {:type "submit" :primary true} "Save details"]
-          [:> s/button {:type "reset" :on-click #(reset! updating? false)} "Cancel"]]]))))
+          [s/button  {:type "submit" :primary true} "Save details"]
+          [s/button {:type "reset" :on-click #(reset! updating? false)} "Cancel"]]]))))
