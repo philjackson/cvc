@@ -43,3 +43,14 @@
                (cv/select rand-id)
                cv/active-cv-path)
            [:docs rand-id]))))
+
+(deftest does-exist?-test
+  (let [rand-id (random-uuid)]
+    (is (false? (-> (initial-state)
+                    :cvs
+                    (cv/does-exist? rand-id))))
+    (is (true? (-> (initial-state)
+                   :cvs
+                   (cv/add {:id rand-id})
+                   (cv/select rand-id)
+                   (cv/does-exist? rand-id))))))
