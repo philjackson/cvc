@@ -4,7 +4,11 @@
             ["firebase/storage"]
             [app.model.cv :refer [cv->blob]]
             [cognitect.transit :as transit]
+            [com.cognitect.transit.types]
             [app.firebase.config :refer [firebase-config]]))
+
+;; UUID support for transit
+(extend-type com.cognitect.transit.types/UUID IUUID)
 
 (defn get-filename [uid]
   (clojure.string/join "/"
@@ -35,4 +39,7 @@
                                                      (.-response xhr))))
                    (.open xhr "GET" url, true)
                    (.send xhr))))
-        (.catch (fn [e] (.log js/console e))))))
+        (.catch (fn [e]
+                  (when-not (= (.-code e) "storage/object-not-found") 
+                    (.log js/console e))
+                  (on-loaded nil))))))

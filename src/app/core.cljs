@@ -32,9 +32,7 @@
                      (when-let [user @state/user]
                        (files/upload-file @state/cvs (:uid user)))
                      (swap! state/config dissoc :updating-storage?))
-                   3000)))
-
-(add-watch state/cvs :cv-cursor-watcher on-cv-update)
+                   10000)))
 
 (defn current-page []
   (let [user @state/user
@@ -59,13 +57,21 @@
 (defn ^:export main []
   (render)
   (auth/init (fn [user]
-               (if user 
+               (if user
                  ;; we've a valid user so fetch their CV data
                  (do
                    (reset! state/user (auth/extract-user user))
-                   (let [new-id (random-uuid)
-                         temp-cv (-> @state/cvs
-                                     (cv/add {:id new-id})
-                                     (cv/select new-id))]
-                     (reset! state/cvs temp-cv)))
-                 (reset! state/user (auth/extract-user user))))))
+                   ;; try to download the user's CVs
+                   (files/download-file
+                    (:uid @state/user)
+                    (fn [data]
+                      (if data
+                        (reset! state/cvs data)
+                        ;; we create a new CV as there's nothing to
+                        ;; download
+                        (let [new-id (random-uuid)]
+                          (print "No CV found in the cloud, building a new one.")
+                          (reset! state/cvs (-> @state/cvs
+                                                (cv/add {:id new-id})
+                                                (cv/select new-id)))))
+                      (add-watch state/cvs :cv-cursor-watcher on-cv-update))))))))
