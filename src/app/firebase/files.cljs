@@ -40,6 +40,6 @@
                    (.open xhr "GET" url, true)
                    (.send xhr))))
         (.catch (fn [e]
-                  (when-not (= (.-code e) "storage/object-not-found") 
+                  (when-not (= (.-code e) "storage/object-not-found")
                     (.log js/console e))
                   (on-loaded nil))))))

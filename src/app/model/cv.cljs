@@ -42,3 +42,13 @@
   [::state/cvs => ::js-blob]
   (js/Blob. [(transit/write (transit/writer :json) cv-state)]
             #js {:type "application/edn;charset=utf-8"}))
+
+(defn is-valid?
+  "Very basic validation function for downloaded cvs. Selected must be
+  filled."
+  [cvs]
+  (and (contains? cvs :selected)
+       (uuid? (:selected cvs))
+
+       (contains? cvs :docs)
+       (map? (:docs cvs))))
