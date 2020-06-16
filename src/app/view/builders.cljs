@@ -7,7 +7,6 @@
 
 (defn personal []
   [s/form
-   [:h2 "Personal:"]
    [:<>
     [s/input-field {:atom (r/cursor state/cvs (active-cv-path @state/cvs :full-name))
                     :label "Full name:"}]
@@ -25,7 +24,6 @@
   (let [section (r/cursor state/cvs (active-cv-path @state/cvs :workexp))]
     (fn []
       [:<>
-       [:h2 "Work experience:"]
        [present-list section
         "Add new work experience item"
         #(str (:name %) " - " (:position %))
@@ -48,7 +46,6 @@
   (let [section (r/cursor state/cvs (active-cv-path @state/cvs :education))]
     (fn []
       [:<>
-       [:h2 "Education:"]
        [present-list
         section
         "Add new institution"
@@ -70,7 +67,6 @@
   (let [section (r/cursor state/cvs (active-cv-path @state/cvs :references))]
     (fn []
       [:<>
-       [:h2 "References:"]
        [present-list section
         "Add new reference"
         #(str (:name %) " - " (:position %))
@@ -85,14 +81,12 @@
 
 (defn contact []
   [:> s/form
-   [:h2 "General contact state/cvs:"]
    [s/input-field {:atom  (r/cursor state/cvs (active-cv-path @state/cvs :email))
                    :label "Email:"}]
    [s/input-field {:atom  (r/cursor state/cvs (active-cv-path @state/cvs :website))
                    :label "Website:"}]
    [s/input-field {:atom  (r/cursor state/cvs (active-cv-path @state/cvs :phone))
                    :label "Phone:"}]
-   [:h2 "Social contact state/cvs:"]
    [s/input-field {:atom  (r/cursor state/cvs (active-cv-path @state/cvs :linkedin))
                    :label "Linkedin:"}]
    [s/input-field {:atom  (r/cursor state/cvs (active-cv-path @state/cvs :gitlab))
