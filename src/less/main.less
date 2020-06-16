@@ -23,7 +23,7 @@ body {
 }
 
 #app {
-    @media @tablet-up {
+    @media @desktop-up {
         margin: auto;
         margin-top: 30px;
         max-width: 95%;
@@ -31,7 +31,7 @@ body {
 }
 
 .card {
-    @media @tablet-up {
+    @media @desktop-up {
         border-radius: .5rem;
     }
 
@@ -89,10 +89,15 @@ body {
 .builder-and-view {
    margin-top: 20px; 
    padding: 20px;
-   display: flex;
+   @media @desktop-up {
+       display: flex;
+   }
 
    .builder {
        margin-right: 10px;
+       @media @desktop-up {
+           min-width: 450px;
+       }
 
        .builder-links {
            display: flex;
