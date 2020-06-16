@@ -26,7 +26,8 @@
   (testing "::state/cv"
     (testing "valid values"
       (are [value] (s/valid? ::state/cv value)
-        {:id (gen-gen ::state/id)}))
+        {:id (gen-gen ::state/id)
+         :name (gen-gen ::state/name)}))
 
     (testing "invalid values"
       (are [value] (not (s/valid? ::state/cv value))

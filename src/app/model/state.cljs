@@ -8,10 +8,11 @@
 (def non-blank-str? #(not (clojure.string/blank? %)))
 
 (s/def ::id uuid?)
+(s/def ::name (s/and string? non-blank-str?))
 (s/def ::selected (? ::id))
 (s/def ::cvs (s/keys :req-un [::selected ::docs]))
 (s/def ::docs (s/map-of ::id ::cv))
-(s/def ::cv (s/keys :req-un [::id]))
+(s/def ::cv (s/keys :req-un [::id ::name]))
 
 (s/def ::config (s/keys))
 

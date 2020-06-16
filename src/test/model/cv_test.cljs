@@ -28,8 +28,8 @@
   (let [rand-id (random-uuid)]
     (is (= (-> (initial-state)
                :cvs
-               (cv/add {:id rand-id}))
-           {:docs {rand-id {:id rand-id}}
+               (cv/add {:id rand-id :name "Main"}))
+           {:docs {rand-id {:id rand-id :name "Main"}}
             :selected nil}))))
 
 (deftest active-cv-path
@@ -39,7 +39,8 @@
                   cv/active-cv-path)))
     (is (= (-> (initial-state)
                :cvs
-               (cv/add {:id rand-id})
+               (cv/add {:id rand-id
+                        :name "Main"})
                (cv/select rand-id)
                cv/active-cv-path)
            [:docs rand-id]))))
@@ -51,6 +52,7 @@
                     (cv/does-exist? rand-id))))
     (is (true? (-> (initial-state)
                    :cvs
-                   (cv/add {:id rand-id})
+                   (cv/add {:id rand-id
+                            :name "Main"})
                    (cv/select rand-id)
                    (cv/does-exist? rand-id))))))
