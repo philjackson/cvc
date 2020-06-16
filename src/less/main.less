@@ -37,7 +37,6 @@ body {
 
     background: @section_background;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,.1);
-    // -webkit-transition: all .3s ease-in-out;
 }
 
 .navbar {
@@ -96,7 +95,41 @@ body {
    .builder {
        margin-right: 10px;
        @media @desktop-up {
-           min-width: 450px;
+           width: 450px;
+       }
+
+       .list {
+           .list-item {
+               display: flex;
+               height: 60px;
+               align-items: center;
+               border: 1px solid #eee;
+               border-radius: 5px;
+               padding: 10px;
+               margin-top: 5px;
+               flex-wrap: nowrap;
+               background: #fff;
+
+               &:hover {
+                   -webkit-transition: all .3s ease-in-out;
+                   transform: translateY(-4px);
+                   box-shadow: 0 4px 4px 0 rgba(0,0,0,.1);
+               }
+
+               button {
+                   background: #fff;
+                   border: 1px solid #fff;
+
+                   &:hover {
+                       border: 1px solid #eee;
+                   }
+               }
+
+               .list-text {
+                   flex-grow: 2;
+                   padding-right: 10px;
+               }
+           }
        }
 
        .builder-links {
