@@ -1,8 +1,6 @@
 (ns app.view.menu
-  (:require [reagent.core :as reagent :refer [atom with-let]]
-            [reitit.frontend.easy :as rfe]
-            ["semantic-ui-react" :as sem]
-            [app.view.semantic :as s]
+  (:require [app.view.semantic :as s]
+            [app.view.variation-switcher :refer [select-variation]]
             [app.model.state :as state]))
 
 (defn menu [params]
@@ -15,4 +13,5 @@
        [:a {:href "/"} "home"]]]
      (when user
        [:div.right
+        [select-variation]
         [:img.user-img {:src (:photo-url user)}]])]))
