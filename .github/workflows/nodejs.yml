@@ -31,12 +31,12 @@ jobs:
 
     - name: Run cache busters
       run: |
-        mkdir -p cvb/{css,js}
-        cp -vr public/img cvb
-        cp -v public/js/manifest.edn cvb
-        cp -v public/js/main.js "cvb/js/${GITHUB_SHA}.js"
-        cp -v public/css/main.css "cvb/css/${GITHUB_SHA}.css"
-        cat public/index.html | sed -e "s#/js/main.js#/js/${GITHUB_SHA}.js#" -e "s#/css/main.css#/css/${GITHUB_SHA}.css#" > "cvb/index.html"
+        mkdir -p cvc/{css,js}
+        cp -vr public/img cvc
+        cp -v public/js/manifest.edn cvc
+        cp -v public/js/main.js "cvc/js/${GITHUB_SHA}.js"
+        cp -v public/css/main.css "cvc/css/${GITHUB_SHA}.css"
+        cat public/index.html | sed -e "s#/js/main.js#/js/${GITHUB_SHA}.js#" -e "s#/css/main.css#/css/${GITHUB_SHA}.css#" > "cvc/index.html"
 
     - name: Deploy
       uses: w9jds/firebase-action@master
