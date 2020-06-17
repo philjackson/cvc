@@ -1,5 +1,5 @@
 (ns app.view.semantic
-  (:require [reagent.core :as r :refer [atom create-class as-element]]
+  (:require [reagent.core :as r :refer [atom as-element]]
             [reagent.dom :as rdom]
             ["semantic-ui-react" :as semanticUIReact]
             ["react-textarea-autosize" :as TextAreaResize]
@@ -162,10 +162,11 @@
                 :on-change #(reset! atom (-> % .-target .-value))}])
 
       :component-did-update
-      (fn [this [_ atom]]
-        (let [area (rdom/dom-node this)]
-          (when-not (= @atom (.-value area))
-            (set! (.-value area) @atom))))})))
+      (fn [this [_ old]]
+        (let [new (first (rest (r/argv this)))
+              area (rdom/dom-node this)]
+          (when (not= @old @new)
+            (set! (.-value area) @new))))})))
 
 ;; This will automatically resize to the size on the input text
 (defn textarea [{:keys [atom label info]}]
