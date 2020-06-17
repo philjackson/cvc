@@ -1,9 +1,7 @@
 (ns test.model.cv-test
   (:require [app.model.state :as state :refer [initial-state]]
-            [cljs.spec.alpha :as s]
             [app.model.cv :as cv]
-            [ghostwheel.core :as g]
-            [cljs.test :include-macros true :refer [deftest is run-tests testing are]]))
+            [cljs.test :include-macros true :refer [deftest is]]))
 
 (deftest select-test
   (let [rand-id (random-uuid)]
