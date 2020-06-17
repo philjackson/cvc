@@ -4,6 +4,7 @@
             [app.view.menu :as menu]
             [app.model.cv :as cv]
             [reitit.frontend.easy :as rfe]
+            [reagent.core :as r]
             [app.model.state :as state]
             [app.view.cv :refer [cv-view]]))
 
@@ -15,7 +16,7 @@
   (fn [params]
     [:<>
      [menu/menu params]
-     [:div.builder-and-view.card
+     [:div.builder-and-cv.card
       [:div.builder
        [:div.builder-links
         [:a {:href (rfe/href :personal {:cv-id (cv/selected @state/cvs)})} "personal"]
@@ -23,7 +24,9 @@
         [:a {:href (rfe/href :workexp {:cv-id (cv/selected @state/cvs)})} "workexp"]
         [:a {:href (rfe/href :references {:cv-id (cv/selected @state/cvs)})} "references"]]
        [builder-view]]
-      [cv-view params]]
+      [:div#cv-column
+       [:div#cv
+        [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]]]]
      (when debug?
        [:<>
         [:pre (with-out-str (cljs.pprint/pprint @state/cvs))]

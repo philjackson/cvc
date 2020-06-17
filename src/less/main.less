@@ -37,9 +37,17 @@ body {
 
     background: @section_background;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,.1);
+
+    @media print {
+        background: white;
+        box-shadow: 0 0 0 0;
+    }
+
 }
 
 .navbar {
+    @media print { display: none; }
+
     display: flex;
     align-items: center;
 
@@ -131,20 +139,26 @@ textarea {
     }
 }
 
-
-.builder-and-view {
+.builder-and-cv {
     margin-top: 20px;
     padding: 20px;
     @media @desktop-up {
         display: flex;
     }
 
+    @import "cv.less";
+
     .builder {
-        margin-right: 10px;
+        @media print { display: none; }
+
         @media @desktop-up {
-            width: 450px;
+            margin-right: 10px;
+            min-width: 450px;
+            flex-grow: 1;
         }
 
+        margin-bottom: 10px;
+        
         .builder-links {
             display: flex;
             justify-content: space-between;
@@ -154,7 +168,5 @@ textarea {
                 font-weight: bold;
             }
         }
-
     }
-
 }
