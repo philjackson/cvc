@@ -25,6 +25,12 @@
             [:div.list-item
              [:div.list-text [:a {:href (rfe/href :personal {:cv-id id})} (:name cv)]]
              ;; can't delete the active cv
+             [s/button {:title "Edit"
+                        :size "tiny"
+                        :on-click (fn []
+                                    (rfe/push-state :personal {:cv-id id})
+                                    (close))
+                        :icon "edit"}]
              [s/button {:title "Delete"
                         :disabled (= (cv/selected @state/cvs) id)
                         :size "tiny"
