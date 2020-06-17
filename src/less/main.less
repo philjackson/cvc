@@ -75,7 +75,7 @@ body {
     .right {
         display: flex;
         margin-right: 20px;
-        align-items: center; 
+        align-items: center;
 
         .select-variation {
             border: 1px solid white;
@@ -83,7 +83,7 @@ body {
             margin-right: 20px;
             padding: 10px;
         }
-        
+
         .user-img {
             width: 50px;
             height: 50px;
@@ -97,63 +97,64 @@ textarea {
     resize: none !important;
 }
 
+.list {
+    .list-item {
+        display: flex;
+        height: 60px;
+        align-items: center;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 5px;
+        flex-wrap: nowrap;
+        background: white;
+
+        &:hover {
+            -webkit-transition: all .3s ease-in-out;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 4px 0 rgba(0,0,0,.1);
+        }
+
+        button {
+            background: white;
+            border: 1px solid white;
+
+            &:hover {
+                border: 1px solid #eee;
+            }
+        }
+
+        .list-text {
+            flex-grow: 2;
+            padding-right: 10px;
+        }
+    }
+}
+
+
 .builder-and-view {
-   margin-top: 20px; 
-   padding: 20px;
-   @media @desktop-up {
-       display: flex;
-   }
+    margin-top: 20px;
+    padding: 20px;
+    @media @desktop-up {
+        display: flex;
+    }
 
-   .builder {
-       margin-right: 10px;
-       @media @desktop-up {
-           width: 450px;
-       }
+    .builder {
+        margin-right: 10px;
+        @media @desktop-up {
+            width: 450px;
+        }
 
-       .list {
-           .list-item {
-               display: flex;
-               height: 60px;
-               align-items: center;
-               border: 1px solid #eee;
-               border-radius: 5px;
-               padding: 10px;
-               margin-top: 5px;
-               flex-wrap: nowrap;
-               background: white;
+        .builder-links {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
 
-               &:hover {
-                   -webkit-transition: all .3s ease-in-out;
-                   transform: translateY(-4px);
-                   box-shadow: 0 4px 4px 0 rgba(0,0,0,.1);
-               }
+            &.selected {
+                font-weight: bold;
+            }
+        }
 
-               button {
-                   background: white;
-                   border: 1px solid white;
-
-                   &:hover {
-                       border: 1px solid #eee;
-                   }
-               }
-
-               .list-text {
-                   flex-grow: 2;
-                   padding-right: 10px;
-               }
-           }
-       }
-
-       .builder-links {
-           display: flex;
-           justify-content: space-between;
-           margin-bottom: 10px;
-
-           &.selected {
-               font-weight: bold;
-           }
-       }
-
-   }
+    }
 
 }
