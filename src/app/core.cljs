@@ -32,7 +32,7 @@
                      (when-let [user @state/user]
                        (files/upload-file @state/cvs (:uid user)))
                      (swap! state/config dissoc :updating-storage?))
-                   10000)))
+                   3000)))
 
 (defn current-page []
   (let [user @state/user
