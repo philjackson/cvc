@@ -165,7 +165,11 @@
       (fn [this [_ old]]
         (let [new (first (rest (r/argv this)))
               area (rdom/dom-node this)]
-          (when (not= @old @new)
+          (cond
+            (nil? @new)
+            (set! (.-value area) "")
+
+            (not= @old @new)
             (set! (.-value area) @new))))})))
 
 ;; This will automatically resize to the size on the input text
