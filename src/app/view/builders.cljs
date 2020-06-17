@@ -80,7 +80,7 @@
                         :label "Comments:"}]])]])))
 
 (defn contact []
-  [:> s/form
+  [s/form
    [s/input-field {:atom  (r/cursor state/cvs (active-cv-path @state/cvs :email))
                    :label "Email:"}]
    [s/input-field {:atom  (r/cursor state/cvs (active-cv-path @state/cvs :website))
