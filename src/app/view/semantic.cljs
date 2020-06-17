@@ -6,7 +6,7 @@
             goog.object))
 
 (defn ob-get
-  "Get a component:
+  "Get an object the JS way:
 
     (ob-get \"Button\")
     (ob-get \"Menu\" \"Item\")"
@@ -15,7 +15,6 @@
     (apply goog.object/getValueByKeys lib k ks)
     (goog.object/get lib k)))
 
-;; Easy handle to the top-level extern for semantic-ui-react
 (defn semantic [& cls]
   (->> cls
        (apply ob-get semanticUIReact)
