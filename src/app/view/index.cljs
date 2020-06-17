@@ -25,4 +25,13 @@
        [builder-view]]
       [cv-view params]]
      (when debug?
-       [:pre (with-out-str (cljs.pprint/pprint @state/cvs))])]))
+       [:<>
+        [:pre (with-out-str (cljs.pprint/pprint @state/cvs))]
+        [:button {:on-click (fn []
+                              (rfe/push-state :index)
+                              (reset! state/cvs (let [new-id (random-uuid)]
+                                                  (-> (state/initial-state)
+                                                      :cvs
+                                                      (cv/add {:id new-id :name "Main"})
+                                                      (cv/select new-id)))))}
+         "Delete all data"]])]))
