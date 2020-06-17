@@ -48,7 +48,7 @@
       ;; class name and passing in any parameters for convenience
       :else
       (let [{:keys [parameters]} (:data @state/match)]
-        [@state/view parameters] ))))
+        [@state/view parameters]))))
 
 (defn ^:dev/after-load render []
   (router/init)

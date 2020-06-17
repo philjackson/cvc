@@ -124,4 +124,4 @@
                                :icon (if (= (:id v) (cv/selected @state/cvs))
                                        "dot circle outline"
                                        "circle outline")
-                               :on-click #(rfe/push-state :personal {:id k})}]))]]]])))
+                               :on-click #(rfe/push-state :personal {:cv-id k})}]))]]]])))
