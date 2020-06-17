@@ -34,6 +34,11 @@
       (assoc next :selected nil)
       next)))
 
+(>defn cv-get
+  [cv-state id]
+  [::state/cvs ::state/id => ::state/cv]
+  (get-in cv-state [:docs id]))
+
 (>defn active-cv-path
   "Gives the path (suitable for `get-in` and co.) to the currently
   selected CV."
@@ -70,3 +75,8 @@
 
        (contains? cvs :docs)
        (map? (:docs cvs))))
+
+(>defn cv-merge
+  [cv-one cv-two]
+  [::state/cv ::state/cv => ::state/cv]
+  (merge cv-one cv-two))
