@@ -2,6 +2,7 @@
   (:require ["firebase/app" :as firebase]
             ["firebase/auth"]
             ["firebase/analytics"]
+            [app.model.state :as state]
             [app.firebase.config :refer [firebase-config]]))
 
 (defn extract-user [firebase-user]
@@ -22,9 +23,9 @@
   (.analytics firebase)
   (.onAuthStateChanged (.auth firebase) on-loaded))
 
-(defn sign-out! [app]
+(defn sign-out! []
   (-> (.signOut (.auth firebase))
-      (.then (fn [] (swap! app dissoc :user)))
+      (.then (fn [] (reset! state/user nil)))
       (.catch (fn [js-result] (.log js/console js-result)))))
 
 (defn sign-in [provider app]
