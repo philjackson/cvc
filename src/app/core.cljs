@@ -38,8 +38,12 @@
   (let [user @state/user
         cvs @state/cvs]
     (cond
-      (not user)
+      (nil? user)
       [index/loader "Loading user..."]
+
+      ;; we've tried to load a user, but there isn't one
+      (and (map? user) (empty? user))
+      [index/front-page]
 
       (not (:selected cvs))
       [index/loader "Loading your CVs..."]
@@ -75,4 +79,6 @@
                                                 (cv/add {:id new-id
                                                          :name "Main"})
                                                 (cv/select new-id)))))
-                      (add-watch state/cvs :cv-cursor-watcher on-cv-update))))))))
+                      (add-watch state/cvs :cv-cursor-watcher on-cv-update))))
+                 ;; we've tried to auth but the user isn't signed in
+                 (reset! state/user {})))))
