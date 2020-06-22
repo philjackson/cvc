@@ -1,5 +1,7 @@
 (ns app.view.menu
   (:require [app.view.semantic :as s]
+            [reagent.core :as r]
+            [app.firebase.auth :as auth]
             [app.view.variation-switcher :refer [select-variation]]
             [app.model.state :as state]))
 
@@ -14,4 +16,7 @@
      (when user
        [:div.right
         [select-variation]
-        [:img.user-img {:src (:photo-url user)}]])]))
+        [s/dropdown {:trigger (r/as-element [:img.user-img {:src (:photo-url user)}])}
+         [s/dropdown-menu
+          [s/dropdown-item {:text "Logout"
+                            :on-click #(auth/sign-out!)}]]]])]))
