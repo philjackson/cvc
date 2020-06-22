@@ -36,7 +36,7 @@
 
 (>defn cv-get
   [cv-state id]
-  [::state/cvs ::state/id => ::state/cv]
+  [::state/cvs ::state/id => (? ::state/cv)]
   (get-in cv-state [:docs id]))
 
 (>defn active-cv-path
