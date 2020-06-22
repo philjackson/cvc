@@ -21,8 +21,8 @@
                            :middleware [select-cv]
                            :view (view/index builders/personal)}]
    ["/cv/:cv-id/contact" {:name :contact
-                           :middleware [select-cv]
-                           :view (view/index builders/contact)}]
+                          :middleware [select-cv]
+                          :view (view/index builders/contact)}]
    ["/cv/:cv-id/workexp" {:name :workexp
                           :middleware [select-cv]
                           :view (view/index builders/workexp)}]
