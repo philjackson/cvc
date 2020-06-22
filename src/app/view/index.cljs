@@ -12,6 +12,9 @@
   [s/dimmer {:inverted true :active true}
    [s/loader {:size "massive"} msg]])
 
+(defn front-page []
+  [:div "hi"])
+
 (defn index [builder-view]
   (fn [params]
     [:<>
@@ -19,11 +22,8 @@
      [:div.builder-and-cv.card
       [:div.builder
        [:div.builder-links
-        [:a {:href (rfe/href :personal {:cv-id (cv/selected @state/cvs)})} "personal"]
-        [:a {:href (rfe/href :contact {:cv-id (cv/selected @state/cvs)})} "contact"]
-        [:a {:href (rfe/href :education {:cv-id (cv/selected @state/cvs)})} "education"]
-        [:a {:href (rfe/href :workexp {:cv-id (cv/selected @state/cvs)})} "workexp"]
-        [:a {:href (rfe/href :references {:cv-id (cv/selected @state/cvs)})} "references"]]
+        (for [item [:personal :contact :education :workexp :references]]
+          [:a {:href (rfe/href item {:cv-id (cv/selected @state/cvs)})} (str item)])]
        [builder-view]]
       [:div#cv-column
        [:div#cv
