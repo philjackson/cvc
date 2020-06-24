@@ -17,7 +17,7 @@
    [menu/menu params]
    [:div.front-page.card
     
-    [:div.section
+    [:div.section.one
      [:div.summary
       [:h1 "It's free and easy to get started."]
       [:p
@@ -31,13 +31,13 @@
        "Signup to get started"]]
      [:img {:src "/img/undraw_profile_image_n3cj.svg"}]]
 
-    [:div.section
-     [:img {:src "/img/undraw_switches_1js3.svg"}]
+    [:div.section.two
      [:div.summary
       [:h1 "CV templates"]
-      [:p "Pick from pre-built templates to get the look you're after."]]]
+      [:p "Pick from pre-built templates to get the look you're after."]]
+     [:img {:src "/img/undraw_switches_1js3.svg"}]]
 
-    [:div.section
+    [:div.section.three
      [:div.summary
       [:h1 "Clean styles"]
       [:p "Print your CV to a file to have a local copy or make

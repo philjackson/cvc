@@ -1,23 +1,36 @@
 .front-page {
     padding: 50px;
     margin: 50px;
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 50px;
 
     h1 {
         color: @secondary;
     }
 
     .section {
-        display: flex;
+        @media @desktop-up {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
         text-align: center;
         margin-top: 50px;
-        align-items: center;
-        justify-content: space-around;
+    }
+
+    .one,.three {
+        flex-direction: row-reverse;
     }
 
     .summary {
         font-size: 1.5em;
         line-height: 1em;
-        width: 50%;
+        @media @desktop-up {
+            flex-basis: 100%;
+            margin-right: 50px;
+        }
 
         .loud-button {
             margin-top: 50px;
@@ -28,7 +41,12 @@
     }
 
     img {
-        height: 400px;
+        max-width: 400px;
+        width: 100%;
+        height: auto;
+        @media @desktop-down {
+            margin-top: 40px;
+        }
         flex-grow: 1;
     }
 }
