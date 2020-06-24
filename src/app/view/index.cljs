@@ -23,8 +23,7 @@
       [:p
        "Next CV is a free CV generator site. It produces "
        "simple but attractive CVs ready to get you a job."]
-      [:p
-       "Watch your CV materialise in realtime as you type."]
+      [:p "Watch your CV materialise in realtime as you type."]
       [s/button {:class "loud-button"
                  :basic true
                  :size "massive"
@@ -52,8 +51,13 @@
      [:div.builder-and-cv.card
       [:div.builder
        [:div.builder-links
-        (for [item [:personal :contact :education :workexp :references]]
-          [:a {:href (rfe/href item {:cv-id (cv/selected @state/cvs)})} (str item)])]
+        (doall
+         (for [item [:personal :contact :education :workexp :references]]
+           ^{:key item}
+           [:a {:href (rfe/href item {:cv-id (cv/selected @state/cvs)})
+                :class (when (= item (:selected (:data @state/match)))
+                         "selected")}
+            (str (name item))]))]
        [builder-view]]
       [:div#cv-column
        [:div#cv

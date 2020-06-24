@@ -16,20 +16,26 @@
 
 (def routes
   [["/" {:name :index
+         :selected :personal
          :view (view/index builders/personal)}]
    ["/cv/:cv-id/personal" {:name :personal
+                           :selected :personal
                            :middleware [select-cv]
                            :view (view/index builders/personal)}]
    ["/cv/:cv-id/contact" {:name :contact
+                          :selected :contact
                           :middleware [select-cv]
                           :view (view/index builders/contact)}]
    ["/cv/:cv-id/workexp" {:name :workexp
+                          :selected :workexp
                           :middleware [select-cv]
                           :view (view/index builders/workexp)}]
    ["/cv/:cv-id/education" {:name :education
+                            :selected :education
                             :middleware [select-cv]
                             :view (view/index builders/education)}]
    ["/cv/:cv-id/references" {:name :references
+                             :selected :references
                              :middleware [select-cv]
                              :view (view/index builders/references)}]])
 
