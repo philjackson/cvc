@@ -12,8 +12,38 @@
   [s/dimmer {:inverted true :active true}
    [s/loader {:size "massive"} msg]])
 
-(defn front-page []
-  [:div "hi"])
+(defn front-page [params]
+  [:<>
+   [menu/menu params]
+   [:div.front-page.card
+    
+    [:div.section
+     [:div.summary
+      [:h1 "It's free and easy to get started."]
+      [:p
+       "Next CV is a free CV generator site. It produces "
+       "simple but attractive CVs ready to get you a job."]
+      [:p
+       "Watch your CV materialise in realtime as you type."]
+      [s/button {:class "loud-button"
+                 :basic true
+                 :size "massive"
+                 :simple true}
+       "Signup to get started"]]
+     [:img {:src "/img/undraw_profile_image_n3cj.svg"}]]
+
+    [:div.section
+     [:img {:src "/img/undraw_switches_1js3.svg"}]
+     [:div.summary
+      [:h1 "CV templates"]
+      [:p "Pick from pre-built templates to get the look you're after."]]]
+
+    [:div.section
+     [:div.summary
+      [:h1 "Clean styles"]
+      [:p "Print your CV to a file to have a local copy or make
+      physical copies that look great."]]
+     [:img {:src "/img/undraw_profile_details_f8b7.svg"}]]]])
 
 (defn index [builder-view]
   (fn [params]
