@@ -49,6 +49,28 @@ body {
 
 }
 
+button.social {
+    margin: 20px;
+    padding: 10px;
+    color: white;
+    width: 300px;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    
+
+    &.google {
+        background: #DD4B39;
+        border: 2px solid darken(#DD4B39, 10%);
+    }
+
+    &.github {
+        background: #2b2b2b;
+        border: 2px solid darken(#2b2b2b, 10%);
+    }
+}
+
 .navbar {
     @media print { display: none; }
 
@@ -62,6 +84,10 @@ body {
     .login-menu {
         margin-right: 10px;
         text-transform: uppercase;
+
+        a {
+            color: white;
+        }
     }
 
     .left {

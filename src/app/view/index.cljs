@@ -27,7 +27,7 @@
       [s/button {:class "loud-button"
                  :basic true
                  :size "massive"
-                 :simple true}
+                 :simple 1}
        "Signup to get started"]]
      [:img {:src "/img/undraw_profile_image_n3cj.svg"}]]
 
