@@ -16,10 +16,9 @@
      (if (and user (not (empty? user)))
        [:div.right
         [select-variation]
-        [s/dropdown {:trigger (r/as-element [:img.user-img {:src (:photo-url user)}])}
+        [s/dropdown {:icon nil :trigger (r/as-element [:img.user-img {:src (:photo-url user)}])}
          [s/dropdown-menu
-          [s/dropdown-item {:text "Logout"
-                            :on-click #(auth/sign-out!)}]]]]
+          [s/dropdown-item {:text "Logout" :on-click #(auth/sign-out!)}]]]]
        [:div.login-menu
         [s/dropdown {:text "Login / signup"}
          [s/dropdown-menu
