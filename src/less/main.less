@@ -16,6 +16,8 @@
 @background: #F6F6F6;
 @section_background: white;
 
+@import "front.less";
+
 body {
     background: @background;
     margin: 0;
@@ -54,6 +56,11 @@ body {
     color: white;
     border: 1px solid #ccc;
     background: linear-gradient(to right, @primary, #DC2424);
+
+    .login-menu {
+        margin-right: 10px;
+        text-transform: uppercase;
+    }
 
     .left {
         flex-grow: 2;
