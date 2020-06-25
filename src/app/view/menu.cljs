@@ -44,7 +44,7 @@
        [:div.upper
         [:div.title "Next CV"]]
        [:div.lower
-        [:a {:href "/"} "home"]]]
+        #_[:a {:href "/"} "home"]]]
       (if (and user (not (empty? user)))
         [:div.right
          [select-variation]
