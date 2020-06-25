@@ -22,10 +22,23 @@
         &:not(:last-child) {
             border-bottom: 1px solid lighten(@primary, 40%);
         }
+
+        .loud-button {
+            margin-top: 50px;
+            border: 1px solid @secondary;
+            color: @secondary;
+            font-weight: bold;
+        }
+
     }
 
     .one,.three {
         flex-direction: row-reverse;
+    }
+
+    .four {
+        text-align: center;
+        justify-content: space-around;
     }
 
     .summary {
@@ -36,12 +49,6 @@
             margin-right: 50px;
         }
 
-        .loud-button {
-            margin-top: 50px;
-            border: 1px solid @secondary;
-            color: @secondary;
-            font-weight: bold;
-        }
     }
 
     img {

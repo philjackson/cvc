@@ -25,6 +25,7 @@
        "simple but attractive CVs ready to get you a job."]
       [:p "Watch your CV materialise in realtime as you type."]
       [s/button {:class "loud-button"
+                 :on-click menu/open-login
                  :basic true
                  :size "massive"
                  :simple 1}
@@ -42,7 +43,15 @@
       [:h1 "Clean styles"]
       [:p "Print your CV to a file to have a local copy or make
       physical copies that look great."]]
-     [:img {:src "/img/undraw_profile_details_f8b7.svg"}]]]])
+     [:img {:src "/img/undraw_profile_details_f8b7.svg"}]]
+
+    [:div.section.four
+     [s/button {:class "loud-button"
+                :on-click menu/open-login
+                :basic true
+                :size "massive"
+                :simple 1}
+      "Signup to get started"]]]])
 
 (defn index [builder-view]
   (fn [params]
