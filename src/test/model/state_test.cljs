@@ -1,11 +1,9 @@
 (ns test.model.state-test
   (:require [app.model.state :as state]
             [clojure.spec.gen.alpha :as gen]
+            [test.helpers :refer [gen-gen]]
             [cljs.spec.alpha :as s]
             [cljs.test :include-macros true :refer [deftest is run-tests testing are]]))
-
-(defn gen-gen [thing]
-  (gen/generate (s/gen thing)))
 
 (deftest check-specs
   (testing "::state/id"

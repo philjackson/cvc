@@ -80,3 +80,9 @@
   [cv-one cv-two]
   [::state/cv ::state/cv => ::state/cv]
   (merge cv-one cv-two))
+
+(>defn public-cvs
+  [cv-state]
+  [::state/cvs => (s/coll-of ::state/cv)]
+  (filter #(contains? % :public-id) 
+          (vals (:docs cv-state))))

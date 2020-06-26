@@ -1,6 +1,7 @@
 (ns test.model.cv-test
   (:require [app.model.state :as state :refer [initial-state]]
             [app.model.cv :as cv]
+            [test.helpers :refer [gen-gen]]
             [cljs.test :include-macros true :refer [deftest is]]))
 
 (deftest select-test
@@ -54,3 +55,18 @@
                             :name "Main"})
                    (cv/select rand-id)
                    (cv/does-exist? rand-id))))))
+
+(deftest public-cvs-test
+  (let [one (random-uuid)
+        two (random-uuid)
+        three (random-uuid)
+        ;; two CVs with public IDs, one without
+        cv-state (-> (initial-state)
+                     :cvs
+                     (cv/add {:id one :public-id (random-uuid) :name (gen-gen ::state/name)})
+                     (cv/add {:id two :public-id (random-uuid) :name (gen-gen ::state/name)})
+                     (cv/add {:id three :name (gen-gen ::state/name)}))
+        public (cv/public-cvs cv-state)]
+    (is (= 2 (count public)))
+    (is (= [one two]
+           (map :id public)))))

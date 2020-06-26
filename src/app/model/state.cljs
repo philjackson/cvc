@@ -12,7 +12,9 @@
 (s/def ::selected (? ::id))
 (s/def ::cvs (s/keys :req-un [::selected ::docs]))
 (s/def ::docs (s/map-of ::id ::cv))
-(s/def ::cv (s/keys :req-un [::id ::name]))
+(s/def ::public-id ::id)
+(s/def ::cv (s/keys :opt-un [::public-id]
+                    :req-un [::id ::name]))
 
 (s/def ::config (s/keys))
 

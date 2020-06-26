@@ -28,8 +28,8 @@
     ;; to do so through the :updating-fb lock.
     (js/setTimeout (fn []
                      (update-title!)
-                     (when-let [user @state/user]
-                       (files/upload-file @state/cvs (:uid user)))
+                     (let [user @state/user]
+                       (files/upload-file! @state/cvs (files/get-private-filename (:uid user))))
                      (swap! state/config dissoc :updating-storage?))
                    3000)))
 
