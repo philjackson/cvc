@@ -84,5 +84,4 @@
 (>defn public-cvs
   [cv-state]
   [::state/cvs => (s/coll-of ::state/cv)]
-  (filter #(contains? % :public-id) 
-          (vals (:docs cv-state))))
+  (filter :public? (vals (:docs cv-state))))

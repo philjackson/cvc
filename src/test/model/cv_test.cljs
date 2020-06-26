@@ -63,9 +63,16 @@
         ;; two CVs with public IDs, one without
         cv-state (-> (initial-state)
                      :cvs
-                     (cv/add {:id one :public-id (random-uuid) :name (gen-gen ::state/name)})
-                     (cv/add {:id two :public-id (random-uuid) :name (gen-gen ::state/name)})
-                     (cv/add {:id three :name (gen-gen ::state/name)}))
+                     (cv/add {:id one
+                              :public? true
+                              :public-id (random-uuid)
+                              :name (gen-gen ::state/name)})
+                     (cv/add {:id two
+                              :public? true
+                              :public-id (random-uuid)
+                              :name (gen-gen ::state/name)})
+                     (cv/add {:id three
+                              :name (gen-gen ::state/name)}))
         public (cv/public-cvs cv-state)]
     (is (= 2 (count public)))
     (is (= [one two]
