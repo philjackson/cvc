@@ -6,7 +6,6 @@
             [app.view.index :as index]
             [app.firebase.files :as files]
             [app.truthy :refer [truthy?]]
-            [app.model.state :as state]
             [app.firebase.auth :as auth]))
 
 (defn update-title! []
@@ -76,8 +75,7 @@
                         (let [new-id (random-uuid)]
                           (print "No CV found in the cloud, building a new one.")
                           (reset! state/cvs (-> @state/cvs
-                                                (cv/add {:id new-id
-                                                         :name "Main"})
+                                                (cv/add {:id new-id :name "Main"})
                                                 (cv/select new-id)))))
                       (add-watch state/cvs :cv-cursor-watcher on-cv-update))))
                  ;; we've tried to auth but the user isn't signed in
