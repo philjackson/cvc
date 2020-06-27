@@ -80,7 +80,9 @@
                            new-cv (if @base-on-open?
                                     (cv/cv-merge
                                      (cv/cv-get @state/cvs (cv/selected @state/cvs))
-                                     {:id new-id :name @new-name})
+                                     {:id new-id
+                                      :public? false
+                                      :name @new-name})
                                     {:id new-id :name @new-name})]
                        (reset! state/cvs (-> @state/cvs
                                              (cv/add new-cv)
