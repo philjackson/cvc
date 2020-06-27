@@ -71,23 +71,28 @@
       [:div#cv-column
        [:div.cv-toolbar
         [:label {:for "public-check"} "Make this CV public"]
-        [s/checkbox
-         {:id "public-check"
-          :on-change (fn [e]
-                       (let [is-checked? (.. e -target -checked)
-                             selected-id (cv/selected @state/cvs)]
-                         (swap! state/cvs
-                                assoc-in
-                                [:docs selected-id]
-                                (let [selected (cv/cv-get @state/cvs selected-id)]
-                                  (cond-> selected
-                                    true
-                                    (assoc :public? is-checked?)
+        (let [selected-id (cv/selected @state/cvs)]
+          [s/checkbox
+           {:id "public-check"
+            :on-change (fn [e]
+                         (let [is-checked? (.. e -target -checked)]
+                           (swap! state/cvs
+                                  assoc-in
+                                  [:docs selected-id]
+                                  (let [selected (cv/cv-get @state/cvs selected-id)]
+                                    (cond-> selected
+                                      true
+                                      (assoc :public? is-checked?)
 
-                                    (not (:public-id selected))
-                                    (assoc :public-id (random-uuid)))))))
-          :checked (:public-id (cv/selected @state/cvs))
-          :toggle true}]]
+                                      ;; TODO delete public file here...
+                                      (= false is-checked?)
+                                      (identity)
+
+                                      ;; if we don't have a public id, make one
+                                      (not (:public-id selected))
+                                      (assoc :public-id (random-uuid)))))))
+            :checked (boolean (:public? (cv/cv-get @state/cvs selected-id)))
+            :toggle true}])]
 
        [:div#cv
         [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]]]]
