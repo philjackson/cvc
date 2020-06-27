@@ -5,40 +5,7 @@
             [app.model.cv :as cv]
             [app.view.index :as index]
             [app.firebase.files :as files]
-            [app.truthy :refer [truthy?]]
             [app.firebase.auth :as auth]))
-
-(defn update-title! []
-  (let [title (cond-> ""
-                (truthy? (-> @state/cvs
-                             cv/selected
-                             :full-name))
-                (str (-> @state/cvs
-                         cv/selected
-                         :full-name))
-
-                (truthy? (-> @state/cvs
-                             cv/selected
-                             :job-title))
-                (str " - " (-> @state/cvs
-                               cv/selected
-                               :job-title)))]
-    (set! (.-title js/document) title)))
-
-(defn on-cv-update
-  "When the user is loggedin via FB, we use their file store, otherwise,
-  we use the localstorage."
-  [_ new-details]
-  (when-not (:updating-storage? @state/config)
-    ;; let the rest of the app know we're updating firebase
-    (swap! state/config assoc :updating-storage? true)
-    ;; in five seconds, update storage. This will block other attempts
-    ;; to do so through the :updating-fb lock.
-    (js/setTimeout (fn []
-                     (update-title!)
-                     (files/upload-all-files!)
-                     (swap! state/config dissoc :updating-storage?))
-                   3000)))
 
 (defn current-page []
   (let [user @state/user
@@ -58,25 +25,4 @@
   (dom/render [current-page] (.getElementById js/document "app")))
 
 (defn ^:export main []
-  (render)
-  (auth/init (fn [user]
-               (if user
-                 ;; we've a valid user so fetch their CV data
-                 (do
-                   (reset! state/user (auth/extract-user user))
-                   ;; try to download the user's CVs
-                   (files/download-file
-                    (:uid @state/user)
-                    (fn [data]
-                      (if data
-                        (reset! state/cvs data)
-                        ;; we create a new CV as there's nothing to
-                        ;; download
-                        (let [new-id (random-uuid)]
-                          (print "No CV found in the cloud, building a new one.")
-                          (reset! state/cvs (-> @state/cvs
-                                                (cv/add {:id new-id :name "Main"})
-                                                (cv/select new-id)))))
-                      (add-watch state/cvs :cv-cursor-watcher on-cv-update))))
-                 ;; we've tried to auth but the user isn't signed in
-                 (reset! state/user {})))))
+  (render))

@@ -129,6 +129,9 @@
 (def feed-extra (semantic "Feed" "Extra"))
 (def feed-content (semantic "Feed" "Content"))
 
+(def transition-group (semantic "Transition" "Group"))
+
+
 (defn input-field [options]
   (let [has-focus? (atom false)
         is-valid? (atom true)]

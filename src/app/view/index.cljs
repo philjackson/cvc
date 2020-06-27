@@ -1,6 +1,7 @@
 (ns app.view.index
   (:require [app.view.semantic :as s]
             [app.debug :refer [debug?]]
+            [reitit.frontend.easy :as rfe]
             [app.view.menu :as menu]
             [app.model.cv :as cv]
             [reitit.frontend.easy :as rfe]
@@ -70,28 +71,35 @@
        [builder-view]]
       [:div#cv-column
        [:div.cv-toolbar
-        [:label {:for "public-check"} "Make this CV public"]
+        
         (let [selected (cv/selected @state/cvs)]
-          [s/checkbox
-           {:id "public-check"
-            :on-change (fn [e]
-                         (let [is-checked? (.. e -target -checked)]
-                           (swap! state/cvs
-                                  assoc-in
-                                  [:docs (:id selected)]
-                                  (cond-> selected
-                                    true
-                                    (assoc :public? is-checked?)
+          [:<>
+           [s/transition-group {:animation "fade up" :duration 200}
+            (when (:public? selected)
+              [:a {:href (rfe/href :public {:cv-id (:id selected)})
+                   :title "This is the link to your public CV"}
+               [s/icon {:name "linkify"}]])]
+           [:label {:for "public-check"} "Make this CV public"]
+           [s/checkbox
+            {:id "public-check"
+             :on-change (fn [e]
+                          (let [is-checked? (.. e -target -checked)]
+                            (swap! state/cvs
+                                   assoc-in
+                                   [:docs (:id selected)]
+                                   (cond-> selected
+                                     true
+                                     (assoc :public? is-checked?)
 
-                                    ;; TODO delete public file here...
-                                    (= false is-checked?)
-                                    (identity)
+                                     ;; TODO delete public file here...
+                                     (= false is-checked?)
+                                     (identity)
 
-                                    ;; if we don't have a public id, make one
-                                    (not (:public-id selected))
-                                    (assoc :public-id (random-uuid))))))
-            :checked (boolean (:public? selected))
-            :toggle true}])]
+                                     ;; if we don't have a public id, make one
+                                     (not (:public-id selected))
+                                     (assoc :public-id (random-uuid))))))
+             :checked (boolean (:public? selected))
+             :toggle true}]])]
 
        [:div#cv
         [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]]]]
@@ -106,6 +114,9 @@
                                                       (cv/add {:id new-id :name "Main"})
                                                       (cv/select new-id)))))}
          "Delete all data"]])]))
+
+(defn public-cv []
+  [:div "pub"])
 
 (defn index-dispatcher [builder-view]
   (fn [params]
