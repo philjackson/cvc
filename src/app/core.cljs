@@ -10,11 +10,19 @@
 
 (defn update-title! []
   (let [title (cond-> ""
-                (truthy? (get-in @state/cvs (cv/active-cv-path @state/cvs :full-name)))
-                (str (get-in @state/cvs (cv/active-cv-path @state/cvs :full-name)))
+                (truthy? (-> @state/cvs
+                             cv/selected
+                             :full-name))
+                (str (-> @state/cvs
+                         cv/selected
+                         :full-name))
 
-                (truthy? (get-in @state/cvs (cv/active-cv-path @state/cvs :job-title)))
-                (str " - " (get-in @state/cvs (cv/active-cv-path @state/cvs :job-title))))]
+                (truthy? (-> @state/cvs
+                             cv/selected
+                             :job-title))
+                (str " - " (-> @state/cvs
+                               cv/selected
+                               :job-title)))]
     (set! (.-title js/document) title)))
 
 (defn on-cv-update

@@ -67,8 +67,9 @@
        [s/form-group
         [s/form-field
          [s/checkbox {:label (str "Base this CV on "
-                                  (get-in @state/cvs
-                                          (cv/active-cv-path @state/cvs :name)))
+                                  (-> @state/cvs
+                                      cv/selected
+                                      :name))
                       :checked @base-on-open?
                       :on-change #(reset! base-on-open? (get (js->clj %2) "checked"))}]]]]
       [s/divider]
@@ -102,7 +103,7 @@
        [add-modal add-modal-open?]
        [:div.select-variation
         [s/dropdown {:text (str "Select a CV: " (-> @state/cvs
-                                                    (get-in (cv/active-cv-path @state/cvs))
+                                                    cv/selected
                                                     :name))}
          [s/dropdown-menu
           [s/dropdown-item {:text "Add a new CV"
