@@ -19,7 +19,7 @@
   [::state/cvs ::state/cv => ::state/cvs]
   (assoc-in cv-state [:docs (:id cv)] cv))
 
-(>defn selected
+(>defn selected-id
   "Returns the ID of the currently selected CV."
   [cv-state]
   [::state/cvs => (? ::state/id)]
@@ -28,9 +28,9 @@
 (>defn delete
   "Remove a CV and un-select it if need be."
   [cv-state id]
-  [::state/cvs ::state/id => ::state/cvs | #(not= id (:id (selected cv-state)))]
+  [::state/cvs ::state/id => ::state/cvs | #(not= id (:id (selected-id cv-state)))]
   (let [next (update-in cv-state [:docs] dissoc id)]
-    (if (= (:id (selected next)) id)
+    (if (= (:id (selected-id next)) id)
       (assoc next :selected nil)
       next)))
 
@@ -44,8 +44,8 @@
   selected CV."
   ([cv-state]
    [::state/cvs => (? coll?)]
-   (when-let [sel (selected cv-state)]
-     [:docs (selected cv-state)]))
+   (when-let [sel (selected-id cv-state)]
+     [:docs sel]))
   ([cv-state & extra-paths]
    [::state/cvs (s/coll-of string?) => coll?]
    (concat (active-cv-path cv-state) extra-paths)))

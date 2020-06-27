@@ -11,16 +11,16 @@
                (cv/select rand-id))
            {:docs {} :selected rand-id}))))
 
-(deftest selected-test
+(deftest selected-id-test
   (is (nil? (-> (initial-state)
                 :cvs
-                cv/selected)))
+                cv/selected-id)))
 
   (let [rand-id (random-uuid)]
     (is (= (-> (initial-state)
                :cvs
                (cv/select rand-id)
-               cv/selected)
+               cv/selected-id)
            rand-id))))
 
 (deftest add-cv-test

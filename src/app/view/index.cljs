@@ -63,7 +63,7 @@
         (doall
          (for [item [:personal :contact :education :workexp :references]]
            ^{:key item}
-           [:a {:href (rfe/href item {:cv-id (cv/selected @state/cvs)})
+           [:a {:href (rfe/href item {:cv-id (cv/selected-id @state/cvs)})
                 :class (when (= item (:selected (:data @state/match)))
                          "selected")}
             (str (name item))]))]
@@ -71,7 +71,7 @@
       [:div#cv-column
        [:div.cv-toolbar
         [:label {:for "public-check"} "Make this CV public"]
-        (let [selected-id (cv/selected @state/cvs)]
+        (let [selected-id (cv/selected-id @state/cvs)]
           [s/checkbox
            {:id "public-check"
             :on-change (fn [e]

@@ -32,9 +32,11 @@
                                     (close))
                         :icon "edit"}]
              [s/button {:title "Delete"
-                        :disabled (= (cv/selected @state/cvs) id)
+                        :disabled (= (cv/selected-id @state/cvs) id)
                         :size "tiny"
-                        :on-click #(reset! state/cvs (cv/delete @state/cvs id))
+                        :on-click (fn []
+                                    (reset! state/cvs (cv/delete @state/cvs id))
+                                    #_"TODO delete the public CV here") 
                         :icon "delete"}]]))]
         [s/divider]
         [s/modal-actions
@@ -79,7 +81,7 @@
                      (let [new-id (random-uuid)
                            new-cv (if @base-on-open?
                                     (cv/cv-merge
-                                     (cv/cv-get @state/cvs (cv/selected @state/cvs))
+                                     (cv/cv-get @state/cvs (cv/selected-id @state/cvs))
                                      {:id new-id
                                       :public? false
                                       :name @new-name})
@@ -112,7 +114,7 @@
            (for [[k v] (:docs @state/cvs)]
              ^{:key k}
              [s/dropdown-item {:text (:name v)
-                               :icon (if (= (:id v) (cv/selected @state/cvs))
+                               :icon (if (= (:id v) (cv/selected-id @state/cvs))
                                        "dot circle outline"
                                        "circle outline")
                                :on-click #(rfe/push-state :personal {:cv-id k})}]))]]]])))
