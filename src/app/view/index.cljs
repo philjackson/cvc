@@ -16,7 +16,7 @@
   [:<>
    [menu/menu params]
    [:div.front-page.card
-    
+
     [:div.section.one
      [:div.summary
       [:h1 "It's free and easy to get started."]
@@ -69,6 +69,26 @@
             (str (name item))]))]
        [builder-view]]
       [:div#cv-column
+       [:div.cv-toolbar
+        [:label {:for "public-check"} "Make this CV public"]
+        [s/checkbox
+         {:id "public-check"
+          :on-change (fn [e]
+                       (let [is-checked? (.. e -target -checked)
+                             selected-id (cv/selected @state/cvs)]
+                         (swap! state/cvs
+                                assoc-in
+                                [:docs selected-id]
+                                (let [selected (cv/cv-get @state/cvs selected-id)]
+                                  (cond-> selected
+                                    true
+                                    (assoc :public? is-checked?)
+
+                                    (not (:public-id selected))
+                                    (assoc :public-id (random-uuid)))))))
+          :checked (:public-id (cv/selected @state/cvs))
+          :toggle true}]]
+
        [:div#cv
         [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]]]]
      (when debug?

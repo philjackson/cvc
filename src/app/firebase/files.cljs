@@ -4,7 +4,6 @@
             ["firebase/storage"]
             [app.model.cv :as cv]
             [app.model.state :as state]
-            [app.model.cv :refer [cv->blob]]
             [cognitect.transit :as transit]
             [com.cognitect.transit.types]
             [app.firebase.config :refer [firebase-config]]))
@@ -29,9 +28,16 @@
                             -hostname)
                         (str public-id ".edn")]))
 
+(defn thing->blob
+  "Convert the passed in cv-state to a Javascript Blob, ready to
+  upload."
+  [obj]
+  (js/Blob. [(transit/write (transit/writer :json) obj)]
+            #js {:type "application/edn;charset=utf-8"}))
+
 (defn upload-file! [data filename]
   (let [ref (.child (.ref (.storage firebase)) filename)
-        blob (cv->blob data)]
+        blob (thing->blob data)]
     (-> (.put ref blob)
         (.then (fn [snapshot]
                  (let [bytes (.-bytesTransferred snapshot)]
@@ -44,7 +50,7 @@
         public   (cv/public-cvs cv-state)]
     ;; private first
     (upload-file! @state/cvs (get-private-filename (:uid user)))
-    
+
     ;; for each new document we just upload the CV, _not_the CV
     ;; state (with :selected etc.)
     (doseq [cv public]

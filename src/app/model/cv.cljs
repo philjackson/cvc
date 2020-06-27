@@ -56,15 +56,6 @@
   [::state/cvs ::state/id => boolean?]
   (contains? (:docs cv-state) id))
 
-(s/def ::js-blob #(instance? js/Blob %))
-(>defn cv->blob
-  "Convert the passed in cv-state to a Javascript Blob, ready to
-  upload."
-  [cv-state]
-  [::state/cvs => ::js-blob]
-  (js/Blob. [(transit/write (transit/writer :json) cv-state)]
-            #js {:type "application/edn;charset=utf-8"}))
-
 (>defn is-valid?
   "Very basic validation function for downloaded cvs. Selected must be
   filled."
