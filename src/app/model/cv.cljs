@@ -25,6 +25,18 @@
   [::state/cvs => (? ::state/id)]
   (:selected cv-state))
 
+(>defn cv-get
+  [cv-state id]
+  [::state/cvs ::state/id => (? ::state/cv)]
+  (get-in cv-state [:docs id]))
+
+(>defn selected
+  "Returns the actual CV that's selected."
+  [cv-state]
+  [::state/cvs => (? ::state/cv)]
+  (when-let [selected (selected-id cv-state)]
+    (cv-get cv-state selected)))
+
 (>defn delete
   "Remove a CV and un-select it if need be."
   [cv-state id]
@@ -33,11 +45,6 @@
     (if (= (:id (selected-id next)) id)
       (assoc next :selected nil)
       next)))
-
-(>defn cv-get
-  [cv-state id]
-  [::state/cvs ::state/id => (? ::state/cv)]
-  (get-in cv-state [:docs id]))
 
 (>defn active-cv-path
   "Gives the path (suitable for `get-in` and co.) to the currently
