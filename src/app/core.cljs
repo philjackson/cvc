@@ -47,13 +47,6 @@
       (nil? user)
       [index/loader "Loading user..."]
 
-      ;; we've tried to load a user, but there isn't one
-      (and (map? user) (empty? user))
-      [index/front-page]
-
-      (not (:selected cvs))
-      [index/loader "Loading your CVs..."]
-
       ;; we have all of our data, load the view, giving it a (css)
       ;; class name and passing in any parameters for convenience
       :else

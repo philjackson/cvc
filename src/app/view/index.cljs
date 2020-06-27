@@ -53,7 +53,7 @@
                 :simple 1}
       "Signup to get started"]]]])
 
-(defn index [builder-view]
+(defn cv-and-builder [builder-view]
   (fn [params]
     [:<>
      [menu/menu params]
@@ -106,3 +106,20 @@
                                                       (cv/add {:id new-id :name "Main"})
                                                       (cv/select new-id)))))}
          "Delete all data"]])]))
+
+(defn index-dispatcher [builder-view]
+  (fn [params]
+    (let [user @state/user
+          cvs @state/cvs]
+      (cond
+        ;; we've tried to load a user, but there isn't one
+        (and (map? user) (empty? user))
+        [front-page]
+
+        (not (:selected cvs))
+        [loader "Loading your CVs..."]
+
+        ;; we have all of our data, load the view, giving it a (css)
+        ;; class name and passing in any parameters for convenience
+        :else
+        [cv-and-builder builder-view]))))
