@@ -2,6 +2,7 @@
   (:require [reitit.frontend :as rf]
             [reitit.frontend.easy :as rfe]
             [app.view.index :as view]
+            [app.view.privacy :as privacy]
             [app.model.state :as state]
             [app.view.builders :as builders]
             [app.model.cv :as cv]
@@ -106,6 +107,9 @@
                    :middleware [download-public-cv
                                 set-anonymous-user]
                    :view view/public-cv}]
+   ["/privacy" {:name :privacy
+                :middleware [set-anonymous-user]
+                :view privacy/privacy-policy}]
    ["/cv/:cv-id/personal" {:name :personal
                            :selected :personal
                            :middleware [authenticate-user

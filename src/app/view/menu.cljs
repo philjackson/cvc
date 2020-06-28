@@ -2,6 +2,7 @@
   (:require [app.view.semantic :as s]
             [reagent.core :as r :refer [atom]]
             [app.firebase.auth :as auth]
+            [reitit.frontend.easy :as rfe]
             [app.view.variation-switcher :refer [select-variation]]
             [app.model.state :as state]))
 
@@ -30,6 +31,9 @@
                                               (close-login))}
            [s/icon {:name "github"}]
            " | Gihub"]]
+    [:div
+     [:a {:href (rfe/href :privacy)}
+      "View our simple privacy policy."]]
     [s/divider]
     [s/modal-actions
      [s/button {:primary true :on-click close-login} "Cancel"]]]])
@@ -38,13 +42,11 @@
   (let [user @state/user]
     [:<>
      [login-modal]
-
      [:div.navbar.card
       [:div.left 
        [:div.upper
         [:div.title "Next CV"]]
-       [:div.lower
-        #_[:a {:href "/"} "home"]]]
+       [:div.lower]]
       (if (and user (not (empty? user)))
         [:div.right
          [select-variation]
