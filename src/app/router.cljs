@@ -57,12 +57,11 @@
   ;; if we don't have CVs
   (if (empty? (:docs @state/cvs))
     (files/download-file
-     (:uid @state/user)
+     (files/get-private-filename (:uid @state/user))
      (fn [data]
        (if data
          (reset! state/cvs data)
-         ;; we create a new CV as there's nothing to
-         ;; download
+         ;; we create a new CV as there's nothing to download
          (let [new-id (random-uuid)]
            (print "No CV found in the cloud, building a new one.")
            (reset! state/cvs (-> @state/cvs
@@ -81,6 +80,17 @@
     (done)))
 
 (defn download-public-cv [match done]
+  (files/download-file
+   (files/get-public-filename (-> match
+                                  :parameters
+                                  :path
+                                  :cv-id))
+   (fn [data]
+     (when data
+       (reset! state/cvs (-> @state/cvs
+                             (cv/add data)
+                             (cv/select(:id data)))))
+     (done)))
   (done))
 
 (def routes

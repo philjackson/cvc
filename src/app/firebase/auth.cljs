@@ -1,9 +1,10 @@
 (ns app.firebase.auth
   (:require ["firebase/app" :as firebase]
             ["firebase/auth"]
-            ["firebase/analytics"]
-            [app.model.state :as state]
-            [app.firebase.config :refer [firebase-config]]))
+            [app.model.state :as state]))
+
+(defn init [on-loaded]
+  (.onAuthStateChanged (.auth firebase) on-loaded))
 
 (defn extract-user [firebase-user]
   (when firebase-user
@@ -17,11 +18,6 @@
        :display-name  (.-displayName firebase-user)
        :photo-url     (.-photoURL firebase-user)
        :email         (:email provider-data)})))
-
-(defn init [on-loaded]
-  (.initializeApp firebase firebase-config)
-  (.analytics firebase)
-  (.onAuthStateChanged (.auth firebase) on-loaded))
 
 (defn sign-out! []
   (-> (.signOut (.auth firebase))

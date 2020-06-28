@@ -85,6 +85,7 @@
                                      (cv/cv-get @state/cvs (cv/selected-id @state/cvs))
                                      {:id new-id
                                       :public? false
+                                      :public-id (random-uuid)
                                       :name @new-name})
                                     {:id new-id :name @new-name})]
                        (reset! state/cvs (-> @state/cvs

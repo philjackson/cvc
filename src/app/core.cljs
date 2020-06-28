@@ -3,6 +3,7 @@
             [app.router :as router]
             [app.model.state :as state]
             [app.model.cv :as cv]
+            [app.firebase.init :as firebase]
             [app.view.index :as index]
             [app.firebase.files :as files]
             [app.firebase.auth :as auth]))
@@ -25,4 +26,5 @@
   (dom/render [current-page] (.getElementById js/document "app")))
 
 (defn ^:export main []
+  (firebase/init)
   (render))

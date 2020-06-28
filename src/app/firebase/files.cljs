@@ -56,17 +56,16 @@
     (doseq [cv public]
       (upload-file! cv (get-public-filename (:public-id cv))))))
 
-(defn download-file [uid on-loaded]
-  (let [filename (get-private-filename uid)]
-    (-> (.getDownloadURL (.child (.ref (.storage firebase)) filename))
-        (.then (fn [url]
-                 (let [xhr (js/XMLHttpRequest.)]
-                   (set! (.-onload xhr) #(on-loaded (transit/read
-                                                     (transit/reader :json)
-                                                     (.-response xhr))))
-                   (.open xhr "GET" url, true)
-                   (.send xhr))))
-        (.catch (fn [e]
-                  (when-not (= (.-code e) "storage/object-not-found")
-                    (.log js/console e))
-                  (on-loaded nil))))))
+(defn download-file [filename on-loaded]
+  (-> (.getDownloadURL (.child (.ref (.storage firebase)) filename))
+      (.then (fn [url]
+               (let [xhr (js/XMLHttpRequest.)]
+                 (set! (.-onload xhr) #(on-loaded (transit/read
+                                                   (transit/reader :json)
+                                                   (.-response xhr))))
+                 (.open xhr "GET" url, true)
+                 (.send xhr))))
+      (.catch (fn [e]
+                (when-not (= (.-code e) "storage/object-not-found")
+                  (.log js/console e))
+                (on-loaded nil)))))

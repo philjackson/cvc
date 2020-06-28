@@ -4,7 +4,6 @@
             [reitit.frontend.easy :as rfe]
             [app.view.menu :as menu]
             [app.model.cv :as cv]
-            [reitit.frontend.easy :as rfe]
             [reagent.core :as r]
             [app.model.state :as state]
             [app.view.cv :refer [cv-view]]))
@@ -17,7 +16,6 @@
   [:<>
    [menu/menu params]
    [:div.front-page.card
-
     [:div.section.one
      [:div.summary
       [:h1 "It's free and easy to get started."]
@@ -71,12 +69,11 @@
        [builder-view]]
       [:div#cv-column
        [:div.cv-toolbar
-        
         (let [selected (cv/selected @state/cvs)]
           [:<>
            [s/transition-group {:animation "fade up" :duration 200}
             (when (:public? selected)
-              [:a {:href (rfe/href :public {:cv-id (:id selected)})
+              [:a {:href (rfe/href :public {:cv-id (:public-id selected)})
                    :title "This is the link to your public CV"}
                [s/icon {:name "linkify"}]])]
            [:label {:for "public-check"} "Make this CV public"]
@@ -115,8 +112,9 @@
                                                       (cv/select new-id)))))}
          "Delete all data"]])]))
 
-(defn public-cv []
-  [:div "pub"])
+(defn public-cv [params]
+  [:div#cv.public
+   [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]])
 
 (defn index-dispatcher [builder-view]
   (fn [params]
