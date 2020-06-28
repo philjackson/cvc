@@ -109,5 +109,6 @@
                                (reset! new-item {})
                                (reset! updating? false))}
           [form new-item]
+          [s/divider]
           [s/button  {:type "submit" :primary true} "Save details"]
           [s/button {:type "reset" :on-click #(reset! updating? false)} "Cancel"]]]))))
