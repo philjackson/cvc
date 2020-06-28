@@ -3,6 +3,7 @@
   (:require [reagent.core :as r :refer [atom]]
             [cljs.spec.alpha :as s]
             [app.debug :refer [debug?]]
+            [alandipert.storage-atom :refer [local-storage]]
             [ghostwheel.core :as g :refer [>defn => ?]]))
 
 (def non-blank-str? #(not (clojure.string/blank? %)))
@@ -17,8 +18,6 @@
 (s/def ::cv (s/keys :opt-un [::public-id ::public?]
                     :req-un [::id ::name]))
 
-(s/def ::config (s/keys))
-
 (s/def ::route-match (? (s/keys)))
 
 (s/def ::uid (s/and string? non-blank-str?))
@@ -28,7 +27,7 @@
                     :valid-firebase-user (s/keys :req-un [::uid ::display-name ::email])
                     :no-firebase-user    #{{}}))
 
-(s/def ::state (s/keys :req-un [::user ::config ::cvs ::route-match]))
+(s/def ::state (s/keys :req-un [::user ::cvs ::route-match]))
 
 (>defn initial-state
   []
@@ -36,14 +35,14 @@
   {:cvs {:selected nil
          :docs {}}
    :route-match nil
-   :user nil
-   :config {}})
+   :user nil})
 
 (defonce all-seeing-state (atom (initial-state)))
 
 ;; cursors for the most commonly accessed parts
-(def config (r/cursor all-seeing-state [:config]))
 (def user   (r/cursor all-seeing-state [:user]))
 (def cvs    (r/cursor all-seeing-state [:cvs]))
 (def match  (r/cursor all-seeing-state [:route-match]))
 (def view   (r/cursor all-seeing-state [:route-match :data :view]))
+
+(def config (local-storage (atom {}) :config))

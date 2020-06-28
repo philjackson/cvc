@@ -27,19 +27,20 @@
                                :job-title)))]
     (set! (.-title js/document) title)))
 
+(defonce updating-storage? (atom false))
 (defn on-cv-update
   "When the user is loggedin via FB, we use their file store, otherwise,
   we use the localstorage."
   [_ new-details]
-  (when-not (:updating-storage? @state/config)
+  (when-not @updating-storage?
     ;; let the rest of the app know we're updating firebase
-    (swap! state/config assoc :updating-storage? true)
+    (reset! updating-storage? true)
     ;; in five seconds, update storage. This will block other attempts
     ;; to do so through the :updating-fb lock.
     (js/setTimeout (fn []
                      (update-title!)
                      (files/upload-all-files!)
-                     (swap! state/config dissoc :updating-storage?))
+                     (reset! updating-storage? false))
                    3000)))
 
 (defn set-anonymous-user [match done]

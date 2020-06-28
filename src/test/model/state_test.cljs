@@ -92,8 +92,7 @@
     (testing "valid values"
       (are [value] (s/valid? ::state/state value)
         @state/all-seeing-state
-        {:config {}
-         :cvs (gen-gen ::state/cvs)
+        {:cvs (gen-gen ::state/cvs)
          :route-match {}
          :user {}}))
 

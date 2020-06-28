@@ -68,6 +68,13 @@
             (str (name item))]))]
        [builder-view]]
       [:div#cv-column
+       (when-not (:hide-pdf-message? @state/config)
+         [:div.cv-message
+          [s/message {:info true
+                      :on-dismiss #(swap! state/config assoc :hide-pdf-message? true)
+                      :icon "info"
+                      :header "How to export this CV to PDF"
+                      :content "Hit Ctrl-P and print to file for a PDF version."}]])
        [:div.cv-toolbar
         (let [selected (cv/selected @state/cvs)]
           [:<>

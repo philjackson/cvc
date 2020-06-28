@@ -33,6 +33,7 @@
                 [cider/cider-nrepl "0.25.1"]
                 [gnl/ghostwheel "0.3.9"]
                 [gnl/ghostwheel.tracer "0.3.9"]
+                [alandipert/storage-atom "2.0.1"]
                 [nano-id "1.0.0"]
                 [com.cognitect/transit-cljs "0.8.264"]
                 [pjstadig/humane-test-output "0.10.0"]
