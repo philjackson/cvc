@@ -74,6 +74,7 @@
            [s/transition-group {:animation "fade up" :duration 200}
             (when (:public? selected)
               [:a {:href (rfe/href :public {:cv-id (:public-id selected)})
+                   :target "_blank"
                    :title "This is the link to your public CV"}
                [s/icon {:name "linkify"}]])]
            [:label {:for "public-check"} "Make this CV public"]
