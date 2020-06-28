@@ -97,8 +97,6 @@ button.social {
             padding: 10px;
 
             .title {
-                @media @desktop-down { display: none; }
-
                 padding-top: 20px;
                 font-family: 'Pacifico', cursive;
                 font-size: 3em;
@@ -115,25 +113,42 @@ button.social {
                 }
             }
         }
+
+        @media @desktop-down { display: none; }
     }
 
     .right {
         display: flex;
-        margin-right: 20px;
         align-items: center;
+
+        @media @desktop-down {
+            flex-grow: 1;
+        }
 
         .select-variation {
             border: 1px solid white;
             border-radius: 4px;
             margin: 20px;
             padding: 10px;
+            flex-grow: 2;
+            background: rgba(0, 0, 0, 0.2);
+            height: 50px;
+
+            .ui.dropdown {
+                line-height: 2.2em;
+            }
         }
 
-        .user-img {
-            width: 50px;
-            height: 50px;
-            border: 1px solid white;
-            border-radius: 5px;
+        .ui.dropdown {
+            line-height: 0;
+
+            .user-img {
+                width: 50px;
+                height: 50px;
+                border: 1px solid white;
+                border-radius: 5px;
+                margin-right: 20px;
+            }
         }
     }
 }
