@@ -50,24 +50,32 @@ body {
 
 }
 
-button.social {
-    margin: 20px;
-    padding: 10px;
-    color: white;
-    width: 300px;
-    border-radius: 5px;
-    display: block;
-    width: 100%;
-    margin: 10px 0;
+.privacy-message {
+    margin-top: 50px;
+}
 
-    &.google {
-        background: #DD4B39;
-        border: 2px solid darken(#DD4B39, 10%);
-    }
+.signup-buttons {
+    button.social {
+        margin: 20px;
+        padding: 10px;
+        color: white;
+        width: 300px;
+        border-radius: 5px;
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        text-align: left;
+        font-size: 1.3em;
 
-    &.github {
-        background: #2b2b2b;
-        border: 2px solid darken(#2b2b2b, 10%);
+        &.google {
+            background: #DD4B39;
+            border: 2px solid darken(#DD4B39, 10%);
+        }
+
+        &.github {
+            background: #2b2b2b;
+            border: 2px solid darken(#2b2b2b, 10%);
+        }
     }
 }
 
@@ -237,7 +245,7 @@ textarea {
 
             @media @desktop-down {
                 display: grid;
-                grid-template-columns: 33% 33% 33%; 
+                grid-template-columns: 33% 33% 33%;
             }
 
             .selected {

@@ -21,19 +21,22 @@
             :close-icon true}
    [s/modal-header "Login / Signup"]
    [s/modal-content
-    [:div [:button.social.google {:on-click (fn []
-                                              (auth/sign-in-google)
-                                              (close-login))}
-           [s/icon {:name "google"}]
-           " | Google"]]
-    [:div [:button.social.github {:on-click (fn []
-                                              (auth/sign-in-google)
-                                              (close-login))}
-           [s/icon {:name "github"}]
-           " | Gihub"]]
-    [:div
-     [:a {:href (rfe/href :privacy)}
-      "View our simple privacy policy."]]
+    [:div.signup-buttons
+     [:button.social.google {:on-click (fn []
+                                         (auth/sign-in-google)
+                                         (close-login))}
+      [s/icon {:name "google"}]
+      " | Google"]
+     [:button.social.github {:on-click (fn []
+                                         (auth/sign-in-google)
+                                         (close-login))}
+      [s/icon {:name "github"}]
+      " | Gihub"]]
+    [:div.privacy-message
+     [s/message {:info true
+                 :content (r/as-element [:a {:href (rfe/href :privacy)
+                                             :target "_blank"}
+                                         "View our simple privacy policy."])}]]
     [s/divider]
     [s/modal-actions
      [s/button {:primary true :on-click close-login} "Cancel"]]]])
