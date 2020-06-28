@@ -113,8 +113,12 @@
          "Delete all data"]])]))
 
 (defn public-cv [params]
-  [:div#cv.public
-   [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]])
+  [:<>
+   [:div#cv.public
+    [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]]
+   (when debug?
+     [:pre (with-out-str (cljs.pprint/pprint @state/all-seeing-state))]
+     )])
 
 (defn index-dispatcher [builder-view]
   (fn [params]

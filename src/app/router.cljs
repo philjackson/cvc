@@ -42,6 +42,9 @@
                      (swap! state/config dissoc :updating-storage?))
                    3000)))
 
+(defn set-anonymous-user [match done]
+  (reset! state/user {}))
+
 (defn authenticate-user [match done]
   ;; only load the user once
   (if (nil? @state/user)
@@ -99,7 +102,8 @@
          :middleware [authenticate-user download-private-cv]
          :view (view/index-dispatcher builders/personal)}]
    ["/pub/:cv-id" {:name :public
-                   :middleware [download-public-cv]
+                   :middleware [download-public-cv
+                                set-anonymous-user]
                    :view view/public-cv}]
    ["/cv/:cv-id/personal" {:name :personal
                            :selected :personal
