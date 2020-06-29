@@ -84,7 +84,7 @@
                    :target "_blank"
                    :title "This is the link to your public CV"}
                [s/icon {:name "linkify"}]])]
-           [:label {:for "public-check"} "Make this CV public"]
+           [:label {:for "public-check"} "Generate a publicly available link"]
            [s/checkbox
             {:id "public-check"
              :on-change (fn [e]
