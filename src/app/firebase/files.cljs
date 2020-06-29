@@ -1,4 +1,5 @@
 (ns app.firebase.files
+  #:ghostwheel.core{:check true :num-tests 10}
   (:require ["firebase/app" :as firebase]
             ["firebase/auth"]
             ["firebase/storage"]
@@ -6,12 +7,14 @@
             [app.model.state :as state]
             [cognitect.transit :as transit]
             [com.cognitect.transit.types]
-            [app.firebase.config :refer [firebase-config]]))
+            [ghostwheel.core :as g :refer [>defn =>]]))
 
 ;; UUID support for transit
 (extend-type com.cognitect.transit.types/UUID IUUID)
 
-(defn get-private-filename [uid]
+(>defn get-private-filename
+  [uid]
+  [string? => string?]
   (clojure.string/join "/"
                        ["private"
                         (.. js/window
@@ -20,7 +23,9 @@
                         uid
                         "cvs.edn"]))
 
-(defn get-public-filename [public-id]
+(>defn get-public-filename
+  [public-id]
+  [::state/id => string?]
   (clojure.string/join "/"
                        ["public"
                         (.. js/window

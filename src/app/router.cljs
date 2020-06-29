@@ -86,10 +86,10 @@
 
 (defn download-public-cv [match done]
   (files/download-file
-   (files/get-public-filename (-> match
-                                  :parameters
-                                  :path
-                                  :cv-id))
+   (files/get-public-filename (uuid (-> match
+                                        :parameters
+                                        :path
+                                        :cv-id)))
    (fn [data]
      (when data
        (reset! state/cvs (-> @state/cvs
