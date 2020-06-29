@@ -122,6 +122,7 @@
 
 (defn public-cv [params]
   [:<>
+   [:a.generated-message {:href "/"} "Generated using Next CV"]
    [:div#cv.public
     (if (:selected @state/cvs)
       [cv-view params (r/cursor state/cvs (cv/active-cv-path @state/cvs))]
