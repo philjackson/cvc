@@ -28,7 +28,7 @@
   (-> (.setPersistence (.auth firebase) (.. firebase -auth -Auth -Persistence -LOCAL))
       (.then (fn []
                (let [provider (new (aget (.-auth firebase) provider))]
-                 (-> (.signInWithPopup (.auth firebase) provider)
+                 (-> (.signInWithRedirect (.auth firebase) provider)
                      (.catch (fn [js-result] (.log js/console js-result)))))))))
 
 (def sign-in-github (partial sign-in "GithubAuthProvider"))
