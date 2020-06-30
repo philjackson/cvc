@@ -28,7 +28,7 @@
       [s/icon {:name "google"}]
       " | Google"]
      [:button.social.github {:on-click (fn []
-                                         (auth/sign-in-google)
+                                         (auth/sign-in-github)
                                          (close-login))}
       [s/icon {:name "github"}]
       " | Gihub"]]
