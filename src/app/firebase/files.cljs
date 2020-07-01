@@ -40,6 +40,13 @@
   (js/Blob. [(transit/write (transit/writer :json) obj)]
             #js {:type "application/edn;charset=utf-8"}))
 
+(defn delete-file! [filename]
+  (let [ref (.child (.ref (.storage firebase)) filename)]
+    (-> ref
+        (.delete)
+        (.then #(print (str filename " deleted.")))
+        (.catch (fn [e] (.log js/console e))))))
+
 (defn upload-file! [data filename]
   (let [ref (.child (.ref (.storage firebase)) filename)
         blob (thing->blob data)]

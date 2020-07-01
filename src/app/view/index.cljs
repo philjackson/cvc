@@ -5,6 +5,7 @@
             [app.view.menu :as menu]
             [app.model.cv :as cv]
             [reagent.core :as r]
+            [app.firebase.files :as files]
             [app.model.state :as state]
             [app.view.cv :refer [cv-view]]))
 
@@ -88,21 +89,25 @@
            [s/checkbox
             {:id "public-check"
              :on-change (fn [e]
-                          (let [is-checked? (.. e -target -checked)]
+                          (let [is-checked? (.. e -target -checked)
+                                new-structure (assoc selected :public? is-checked?)]
+
+                            ;; if the user un-checks (and there's a
+                            ;; public-id), then we need to delete the
+                            ;; public file
                             (swap! state/cvs
                                    assoc-in
-                                   [:docs (:id selected)]
-                                   (cond-> selected
-                                     true
-                                     (assoc :public? is-checked?)
-
-                                     ;; TODO delete public file here...
-                                     (= false is-checked?)
-                                     (identity)
-
-                                     ;; if we don't have a public id, make one
-                                     (not (:public-id selected))
-                                     (assoc :public-id (random-uuid))))))
+                                   (cv/active-cv-path @state/cvs)
+                                   (if (and (false? is-checked?) (:public-id selected))
+                                     (do
+                                       (files/delete-file!
+                                        (files/get-public-filename
+                                         (:public-id new-structure)))
+                                       (assoc new-structure :public-id (random-uuid)))
+                                     ;; They've checked the box, add a public
+                                     ;; id and it'll get uploaded in the next
+                                     ;; tick
+                                     (assoc new-structure :public-id (random-uuid))))))
              :checked (boolean (:public? selected))
              :toggle true}]])]
 
