@@ -3,6 +3,7 @@
   (:require ["firebase/app" :as firebase]
             ["firebase/auth"]
             ["firebase/storage"]
+            [clojure.edn :as edn]
             [app.model.cv :as cv]
             [app.model.state :as state]
             [cognitect.transit :as transit]
@@ -37,7 +38,7 @@
   "Convert the passed in cv-state to a Javascript Blob, ready to
   upload."
   [obj]
-  (js/Blob. [(transit/write (transit/writer :json) obj)]
+  (js/Blob. [(pr-str obj)]
             #js {:type "application/edn;charset=utf-8"}))
 
 (defn delete-file! [filename]
@@ -72,9 +73,14 @@
   (-> (.getDownloadURL (.child (.ref (.storage firebase)) filename))
       (.then (fn [url]
                (let [xhr (js/XMLHttpRequest.)]
-                 (set! (.-onload xhr) #(on-loaded (transit/read
-                                                   (transit/reader :json)
-                                                   (.-response xhr))))
+                 (set! (.-onload xhr) #(on-loaded (try
+                                                    (transit/read
+                                                     (transit/reader :json)
+                                                     (.-response xhr))
+                                                    (catch js/Error e
+                                                      (if (= "SyntaxError" (.-name e))
+                                                        (edn/read-string (.-response xhr))
+                                                        (throw e))))))
                  (.open xhr "GET" url, true)
                  (.send xhr))))
       (.catch (fn [e]
