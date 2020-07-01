@@ -50,12 +50,14 @@
        [:div.upper
         [:div.title "Next CV"]]
        [:div.lower]]
-      (if (and user (not (empty? user)))
-        [:div.right
-         [select-variation]
-         [s/dropdown {:icon nil :trigger (r/as-element [:img.user-img {:src (:photo-url user)}])}
-          [s/dropdown-menu
-           [s/dropdown-item {:text "Logout" :on-click #(auth/sign-out!)}]]]]
-        [:div.login-menu
-         [:a {:href "#" :on-click open-login}
-          "login / signup"]])]]))
+      [:div.right
+       (if (and user (not (empty? user)))
+         [:<>
+          [select-variation]
+          [s/dropdown {:icon nil :trigger (r/as-element [:img.user-img {:src (:photo-url user)}])}
+           [s/dropdown-menu
+            [s/dropdown-item {:text "Logout" :on-click #(auth/sign-out!)}]]]]
+         
+         [:div.login-menu
+          [:a {:href "#" :on-click open-login}
+           "login / signup"]])]]]))

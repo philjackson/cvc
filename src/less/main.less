@@ -107,7 +107,7 @@ body {
             .title {
                 padding-top: 20px;
                 font-family: 'Pacifico', cursive;
-                font-size: 3em;
+                font-size: 3vw;
             }
         }
 
@@ -121,13 +121,16 @@ body {
                 }
             }
         }
-
-        @media @desktop-down { display: none; }
     }
 
     .right {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
+
+        .login-menu {
+            padding: 20px;
+        }
 
         @media @desktop-down {
             flex-grow: 1;
