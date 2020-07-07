@@ -2,15 +2,11 @@
   (:require [reagent.dom :as dom]
             [app.router :as router]
             [app.model.state :as state]
-            [app.model.cv :as cv]
             [app.firebase.init :as firebase]
-            [app.view.index :as index]
-            [app.firebase.files :as files]
-            [app.firebase.auth :as auth]))
+            [app.view.index :as index]))
 
 (defn current-page []
-  (let [user @state/user
-        cvs @state/cvs]
+  (let [user @state/user]
     (cond
       (nil? user)
       [index/loader "Loading user..."]
