@@ -1,5 +1,6 @@
 (ns app.core
-  (:require [reagent.dom :as dom]
+  (:require [reagent.core :refer [atom]]
+            [reagent.dom :as dom]
             [app.router :as router]
             [app.model.state :as state]
             [app.firebase.init :as firebase]

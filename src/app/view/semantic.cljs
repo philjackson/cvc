@@ -5,6 +5,8 @@
             ["react-textarea-autosize" :as TextAreaResize]
             goog.object))
 
+(def tablet-width 991)
+
 (defn ob-get
   "Get an object the JS way:
 
@@ -21,8 +23,8 @@
        r/adapt-react-class))
 
 (def responsive (semantic "Responsive"))
-(def desktop-down {:max-width 991})
-(def desktop-up {:min-width 991})
+(def desktop-down {:max-width tablet-width})
+(def desktop-up {:min-width tablet-width})
 
 (def accordion (semantic "Accordion"))
 (def accordion-title (semantic "Accordion" "Title"))
