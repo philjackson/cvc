@@ -20,6 +20,10 @@
        (apply ob-get semanticUIReact)
        r/adapt-react-class))
 
+(def responsive (semantic "Responsive"))
+(def desktop-down {:max-width 991})
+(def desktop-up {:min-width 991})
+
 (def accordion (semantic "Accordion"))
 (def accordion-title (semantic "Accordion" "Title"))
 (def accordion-content (semantic "Accordion" "Content"))
@@ -130,7 +134,6 @@
 (def feed-content (semantic "Feed" "Content"))
 
 (def transition-group (semantic "Transition" "Group"))
-
 
 (defn input-field [options]
   (let [has-focus? (atom false)
