@@ -71,9 +71,9 @@
                                   :cv
                                   :builder))}])
 
+(defonce visible-element (atom :cv))
 (defn cv-and-builder [builder-view]
   (let [is-tablet? (atom (is-tablet-width?))
-        visible-element (atom :cv)
         window-size-fn (set! (.-onresize js/window)
                              #(reset! is-tablet? (is-tablet-width?)))]
     (fn [params]
