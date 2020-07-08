@@ -31,7 +31,7 @@
                                          (auth/sign-in-github)
                                          (close-login))}
       [s/icon {:name "github"}]
-      " | Gihub"]]
+      " | Github"]]
     [:div.privacy-message
      [s/message {:info true
                  :content (r/as-element [:a {:href (rfe/href :privacy)
