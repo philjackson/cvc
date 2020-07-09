@@ -1,5 +1,7 @@
 # Next CV
 
+https://nextcv.net
+
 This is the source code for NextCV - a simple CV builder that
 allows a user to build up their CV and watch it emerge in realtime.
 
