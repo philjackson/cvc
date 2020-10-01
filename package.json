@@ -22,6 +22,6 @@
     "shadow-cljs": "^2.10",
     "less": "^3.11.3",
     "less-plugin-clean-css": "^1.5.1",
-    "marked": "^1.1.0"
+    "marked": "^1.2.0"
   }
 }
